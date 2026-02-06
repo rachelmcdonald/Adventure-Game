@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Mosslit Path</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        {% if scene %}
+            <p class="scene-text">{{ scene }}</p>
+        {% else %}
+            <p class="scene-text">Your adventure awaits! Press begin to start.</p>
+        {% endif %}
+        <form action="{{ url_for('game') }}" method="post">
+            <button type="submit" class="action-btn">Begin/button>
+        </form>
+    </div>
+</body>
+</html>
