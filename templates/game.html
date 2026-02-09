@@ -5,14 +5,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div class="fireflies">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <div class="game-container">
         {% if scene %}
             <p class="scene-text">{{ scene }}</p>
         {% else %}
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
-        <form action="{{ url_for('game') }}" method="post">
-            <button type="submit" class="action-btn">Begin/button>
+        <form action="{{ url_for('game') }}" method="post" class="choices">
+            {% for value, label in options %}
+                <button type="submit" name="choice" value="{{ value }}" class="action-btn">
+                    {{ label }}
+                </button>
+            {% endfor %}
         </form>
     </div>
 </body>
