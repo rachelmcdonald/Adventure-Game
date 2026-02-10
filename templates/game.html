@@ -19,6 +19,13 @@
     </div>
 
     <div class="game-container">
+        
+        <div class="stats">
+            🌱 Courage: {{ session.courage }} |
+            🪙 Gold: {{ session.gold }}
+            {% if session.blessing %}| ✨ Blessed{% endif %}
+        </div>
+
         {% if scene %}
             <p class="scene-text">{{ scene }}</p>
         {% else %}

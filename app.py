@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
+app.secret_key = "mosslit-secret-key"
 
 @app.route('/')
 def home():
@@ -8,37 +9,86 @@ def home():
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
-    scene_text = (
-        "You stand at the edge of an ancient forest. "
-        "Do you go left toward the glowing mushrooms, or right along the sparkling river?"
-    )
-    options = [
-        ('left', 'Go left toward the glowing mushrooms'),
-        ('right', 'Go right along the sparkling river')
-    ]
+    if 'gold' not in session:
+        session['gold'] = 0
+        session['courage'] = 1
+        session['blessing'] = False
+        session['scene'] = 'start'
+    
+    scene = session['scene']
+    scene_text = ""
+    options = []
+
+    if scene == 'start':
+        scene_text = (
+            "You stand at the edge of an ancient forest. "
+            "Moonlight glimmers on moss-covered roots."
+        )
+        options = [
+            ('left', 'Go left toward the glowing mushrooms'),
+            ('right', 'Go right along the sparkling river')
+        ]
+
+    elif scene == 'left':
+        scene_text = (
+            "Bioluminescent mushrooms hum softly. "
+            "A tiny forest fairy floats into view."
+        )
+        options = [
+            ('fairy_help', 'Greet the fairy politely'),
+            ('fairy_ignore', 'Ignore the fairy and move on')
+        ]
+
+    elif scene == 'right':
+        scene_text = (
+            "The river whispers ancient songs."
+            "A moss-robed wizard blocks the path."
+        )
+        options = [
+            ('wizard_talk', 'Speak with the wizard'),
+            ('wizard_pass', 'Try to pass quietly')
+        ]
+
+    elif scene == 'fairy_help':
+        session['gold'] += 1
+        session['blessing'] = True
+        scene_text = (
+            "The fairy blesses you with glowing moss-light. "
+            "You feel protected and warm."
+        )
+        options = [('continue', 'Press onward uneasily')]
+
+    elif scene == 'wizard_pass':
+        session['courage'] -= 1
+        scene_text = (
+            "The wizard frowns. The path twists unnaturally."
+        )
+        options = [('continue', 'Push forward anyway')]
+
+    elif scene == 'continue':
+        if session['courage'] <= 0:
+            scene_text = (
+                "The forest overwhelms you. "
+                "You curl beneath the moss and drift into sleep."
+                "\n\n🌑 Bad Ending"
+            )
+            options = [('restart', 'Begin again')]
+        else:
+            scene_text = (
+                "You emerge into a mosslit clearing. "
+                "Fireflies dance as dawn breaks."
+                "\n\n🌿 Cozy Ending — You Win"
+            )
+            options = [('restart', 'Play again')]
+
+    elif scene == 'restart':
+        session.clear()
+        return render_template('game.html', scene="Your journey begins anew...", options=[('start', 'Begin')])
 
     if request.method == 'POST':
         choice = request.form.get('choice')
-
-        if choice == 'left':
-            scene_text = (
-                "You follow the soft glow of bioluminescent mushrooms. "
-                "Fireflies drift lazily through the air."
-            )
-            options = [
-                ('investigate', 'Investigate the humming'),
-                ('continue', 'Continue down the mossy path')
-            ]
-
-        elif choice == 'right':
-            scene_text = (
-                "You walk beside the sparkling river. "
-                "A rickety wooden bridge sways ahead."
-            )
-            options = [
-                ('cross', 'Cross the bridge'),
-                ('follow', 'Follow the riverbank')
-            ]
+        session['scene'] = choice
+        return game()
 
     return render_template('game.html', scene=scene_text, options=options)
 
