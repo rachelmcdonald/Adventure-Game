@@ -31,6 +31,23 @@
         {% else %}
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
+
+        {% if session.scene == 'fairy' %}
+            <div class="character-area">
+                <img 
+                    src="{{ url_for('static', filename='images/fairy.png') }}" 
+                    class="fairy-sprite {% if session.fairy_interacted %}sway{% else %}bob{% endif %}" 
+                    alt="Forest Fairy"
+                >
+                {% if session.fairy_interacted %}
+                    <div class="dialogue-box">
+                        "Greetings, traveler," she chimes softly.  
+                        "The forest has been waiting for you."
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
         <form action="{{ url_for('game') }}" method="post" class="choices">
             {% for value, label in options %}
                 <button type="submit" name="choice" value="{{ value }}" class="action-btn">

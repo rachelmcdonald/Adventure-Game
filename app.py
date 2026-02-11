@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 
 app = Flask(__name__)
 app.secret_key = "mosslit-secret-key"
@@ -88,7 +88,7 @@ def game():
     if request.method == 'POST':
         choice = request.form.get('choice')
         session['scene'] = choice
-        return game()
+        return redirect(url_for('game'))
 
     return render_template('game.html', scene=scene_text, options=options)
 
