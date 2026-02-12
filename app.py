@@ -14,6 +14,9 @@ def game():
         session['courage'] = 1
         session['blessing'] = False
         session['scene'] = 'start'
+
+    if 'fairy_interacted' not in session:
+        session['fairy_interacted'] = False    
     
     scene = session['scene']
     scene_text = ""
@@ -52,16 +55,36 @@ def game():
     elif scene == 'fairy_help':
         session['gold'] += 1
         session['blessing'] = True
+        session['fairy_interacted'] = True
+
         scene_text = (
-            "The fairy blesses you with glowing moss-light. "
-            "You feel protected and warm."
+            "The fairy smiles warmly and sprinkles glowing spores over you. "
+            "You feel a gentle protective magic surround you."
         )
-        options = [('continue', 'Press onward uneasily')]
+        options = [('continue', 'Thank her and continue')]
+
+    elif scene == 'fairy_ignore':
+        session['courage'] -= 1
+        session['fairy_interacted'] = True
+
+        scene_text = (
+            "The fairy watches silently as you pass."
+            "The forest feels a little colder without her light."
+        )
+        options = [('continue', 'Continue quietly')]
+
+    elif scene == 'wizard_talk':
+        session['courage'] += 1
+        scene_text = (
+            "The wizard nods approvingly at your bravery "
+            "and allows you safe passage."
+        )
+        options = [('continue', 'Proceed down the path')]
 
     elif scene == 'wizard_pass':
         session['courage'] -= 1
         scene_text = (
-            "The wizard frowns. The path twists unnaturally."
+            "The wizard frowns. The path twists unnaturally around you."
         )
         options = [('continue', 'Push forward anyway')]
 
@@ -83,7 +106,7 @@ def game():
 
     elif scene == 'restart':
         session.clear()
-        return render_template('game.html', scene="Your journey begins anew...", options=[('start', 'Begin')])
+        return redirect(url_for('game'))
 
     if request.method == 'POST':
         choice = request.form.get('choice')

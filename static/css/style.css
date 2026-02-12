@@ -169,3 +169,19 @@ p {
     0%, 100% { opacity: 0.2; }
     50% { opacity: 1; }
 }
+
+.character-area {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.fairy-wrapper {
+    display: inline-block;
+    animation: fairyBob 3s ease-in-out infinite;
+}
+
+@keyframes fairyBob {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}

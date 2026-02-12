@@ -32,19 +32,24 @@
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
 
-        {% if session.scene == 'fairy' %}
+        {% if session.scene in ['left', 'fairy_help', 'fairy_ignore'] %}
             <div class="character-area">
-                <img 
-                    src="{{ url_for('static', filename='images/fairy.png') }}" 
-                    class="fairy-sprite {% if session.fairy_interacted %}sway{% else %}bob{% endif %}" 
-                    alt="Forest Fairy"
-                >
-                {% if session.fairy_interacted %}
+                <div class="fairy-wrapper
+                    {% if session.scene == 'fairy_help' %} blessed {% endif %}
+                    {% if session.scene == 'fairy_ignore' %} offeded {% endif %}
+                ">
+                    <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite">
+            </div>
+
+                {% if session.scene == 'fairy_help' %}
                     <div class="dialogue-box">
-                        "Greetings, traveler," she chimes softly.  
-                        "The forest has been waiting for you."
-                    </div>
-                {% endif %}
+                        ✨ "Hello traveller… I am Luma of the Moss. May this light guide you."
+                    </div>   
+                {% elif session.scene == 'fairy_ignore' %}
+                    <div class="dialog-box angry">
+                        "...The forest remembers those who walk without kidness.""
+                    </div>   
+                {% endif %}       
             </div>
         {% endif %}
 
