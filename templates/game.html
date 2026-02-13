@@ -36,9 +36,9 @@
             <div class="character-area">
                 <div class="fairy-wrapper
                     {% if session.scene == 'fairy_help' %} blessed {% endif %}
-                    {% if session.scene == 'fairy_ignore' %} offeded {% endif %}
+                    {% if session.scene == 'fairy_ignore' %} offended {% endif %}
                 ">
-                    <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite">
+                    <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if session.scene == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
             </div>
 
                 {% if session.scene == 'fairy_help' %}
@@ -46,8 +46,8 @@
                         ✨ "Hello traveller… I am Luma of the Moss. May this light guide you."
                     </div>   
                 {% elif session.scene == 'fairy_ignore' %}
-                    <div class="dialog-box angry">
-                        "...The forest remembers those who walk without kidness.""
+                    <div class="dialogue-box angry">
+                        "...The forest remembers those who walk without kindness.""
                     </div>   
                 {% endif %}       
             </div>

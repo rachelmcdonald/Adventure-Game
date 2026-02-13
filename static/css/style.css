@@ -175,6 +175,15 @@ p {
     text-align: center;
 }
 
+.fairy-sprite {
+    width: 140px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
 .fairy-wrapper {
     display: inline-block;
     animation: fairyBob 3s ease-in-out infinite;
@@ -184,4 +193,91 @@ p {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
     100% { transform: translateY(0px); }
+}
+
+.blessed {
+    animation: fairyFloat 2s ease-in-out infinite;
+}
+
+.fairy-blessed {
+    filter: drop-shadow(0 0 12px #7cff9e);
+}
+
+@keyframes fairyFloat {
+    0% { transform: translateX(0px); }
+    50% { transform: translateX(8px); }
+    100% { transform: translateX(0px); }
+}
+
+.offended {
+    animation: fairyShake 0.4s infinite;
+    filter: drop-shadow(0 0 8px red);
+}
+
+@keyframes fairyShake {
+    0% { transform: translateX(0px); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0px); }
+}
+
+.angry {
+    filter: drop-shadow(0 0 12px red);
+}
+
+.fairy-angry {
+    filter: drop-shadow(0 0 12px #ff4d4d);
+}
+
+.shake {
+    animation: shake 0.4s infinite alternate;
+}
+
+@keyframes shake {
+    from { transform: translateX(-4px); }
+    to { transform: translateX(4px); }
+}
+
+.bob {
+    animation: bob 3s ease-in-out infinite;
+}
+
+@keyframes bob {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.sway {
+    animation: sway 2s ease-in-out infinite;
+}
+
+@keyframes sway {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+}
+
+.dialogue-box {
+    margin: 15px auto;
+    padding: 15px 20px;
+    width: 60%;
+    background: rgba(0, 40, 20, 0.8);
+    border: 2px solid #5cff8d;
+    border-radius: 12px;
+    color: #d8ffe8;
+    font-size: 1.1rem;
+    box-shadow: 0 0 12px #5cff8d;
+}
+
+.dialogue-box.angry {
+    border-color: #ff5c5c;
+    box-shadow: 0 0 12px #ff5c5c;
+    color: #ffdede;
+}
+
+.blessed img {
+    filter: drop-shadow(0 0 10px #7cffb2)
+            drop-shadow(0 0 20px #7cffb2);
 }

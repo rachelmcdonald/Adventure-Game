@@ -16,7 +16,10 @@ def game():
         session['scene'] = 'start'
 
     if 'fairy_interacted' not in session:
-        session['fairy_interacted'] = False    
+        session['fairy_interacted'] = False   
+
+    if 'fairy_mood' not in session:
+        session['fairy_mood'] = "neutral"
     
     scene = session['scene']
     scene_text = ""
@@ -56,6 +59,7 @@ def game():
         session['gold'] += 1
         session['blessing'] = True
         session['fairy_interacted'] = True
+        session['fairy_mood'] = "happy"
 
         scene_text = (
             "The fairy smiles warmly and sprinkles glowing spores over you. "
@@ -66,6 +70,7 @@ def game():
     elif scene == 'fairy_ignore':
         session['courage'] -= 1
         session['fairy_interacted'] = True
+        session['fairy_mood'] = "angry"
 
         scene_text = (
             "The fairy watches silently as you pass."
