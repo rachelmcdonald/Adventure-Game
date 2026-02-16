@@ -43,13 +43,43 @@
 
                 {% if session.scene == 'fairy_help' %}
                     <div class="dialogue-box">
-                        ✨ "Hello traveller… I am Luma of the Moss. May this light guide you."
+                        <span class="typewriter">
+                            ✨ "Hello traveler… I am Luma of the Moss. May this light guide you."
+                        </span>
                     </div>   
                 {% elif session.scene == 'fairy_ignore' %}
                     <div class="dialogue-box angry">
-                        "...The forest remembers those who walk without kindness.""
+                        <span class="typewriter">
+                            "...The forest remembers those who walk without kindness."
+                        </span>
                     </div>   
                 {% endif %}       
+            </div>
+        {% endif %}
+
+        {% if session.scene in ['right', 'wizard_talk', 'wizard_pass'] %}
+            <div class="character-area">
+                <div class="wizard-wrapper
+                    {% if session.scene == 'wizard_talk' %} blessed {% endif %}
+                    {% if session.scene == 'wizard_pass' %} offended {% endif %}
+                ">
+                    <img src="{{ url_for('static', filename='images/wizard.png') }}" class="wizard-sprite">
+                </div>
+                    {% if session.scene == 'wizard_talk' %}
+
+                        <div class="dialogue-box">
+                            <span class="typewriter">
+                                🌿 "The moss remembers kindness. Walk with courage, traveler."
+                            </span>
+                        </div>
+
+                    {% elif session.scene == 'wizard_pass' %}
+                        <div class="dialogue-box angry">
+                            <span class="typewriter">
+                                "Sneaking through ancient woods is rarely wise."
+                            </span>
+                        </div>
+                    {% endif %}          
             </div>
         {% endif %}
 
@@ -61,5 +91,27 @@
             {% endfor %}
         </form>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const elements = document.querySelectorAll(".typewriter");
+
+            elements.forEach(el => {
+                const text = el.textContent;
+                el.textContent = "";
+                let i = 0;
+
+                function type() {
+                    if (i < text.length) {
+                        el.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, 40);
+                    }
+                }
+
+                type();
+            });
+        });
+    </script>
+
 </body>
 </html>

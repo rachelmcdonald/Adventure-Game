@@ -14,6 +14,7 @@ def game():
         session['courage'] = 1
         session['blessing'] = False
         session['scene'] = 'start'
+        session['wizard_interacted'] = False
 
     if 'fairy_interacted' not in session:
         session['fairy_interacted'] = False   
@@ -47,12 +48,12 @@ def game():
 
     elif scene == 'right':
         scene_text = (
-            "The river whispers ancient songs."
-            "A moss-robed wizard blocks the path."
+            "The river whispers ancient songs. "
+            "A moss-robed wizard stands before you, staff glowing softly.."
         )
         options = [
-            ('wizard_talk', 'Speak with the wizard'),
-            ('wizard_pass', 'Try to pass quietly')
+            ('wizard_talk', 'Speak respectfully to the wizard'),
+            ('wizard_pass', 'Attempt to sneak past')
         ]
 
     elif scene == 'fairy_help':
@@ -79,22 +80,29 @@ def game():
         options = [('continue', 'Continue quietly')]
 
     elif scene == 'wizard_talk':
+        session['wizard_interacted'] = True
         session['courage'] += 1
+        session['gold'] +=1
+        
         scene_text = (
-            "The wizard nods approvingly at your bravery "
-            "and allows you safe passage."
+            "The wizard nods slowly. "
+            "He taps his staff, filling you with quiet strength."
         )
-        options = [('continue', 'Proceed down the path')]
+        options = [('continue', 'Continue along the glowing path')]
 
     elif scene == 'wizard_pass':
+        session['wizard_interacted'] = True
         session['courage'] -= 1
+        
         scene_text = (
-            "The wizard frowns. The path twists unnaturally around you."
+            "The wizard senses your hesitation."
+            "The forest grows colder around you."
         )
-        options = [('continue', 'Push forward anyway')]
+        options = [('continue', 'Push forward uneasily')]
 
     elif scene == 'continue':
         if session['courage'] <= 0:
+            
             scene_text = (
                 "The forest overwhelms you. "
                 "You curl beneath the moss and drift into sleep."
