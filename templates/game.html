@@ -39,6 +39,8 @@
                     {% if session.scene == 'fairy_ignore' %} offended {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if session.scene == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
+
+                    <div class="sparkles"></div>
             </div>
 
                 {% if session.scene == 'fairy_help' %}
@@ -64,6 +66,8 @@
                     {% if session.scene == 'wizard_pass' %} offended {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/wizard.png') }}" class="wizard-sprite">
+
+                    <div class="wizard-sparkles"></div>
                 </div>
                     {% if session.scene == 'wizard_talk' %}
 
@@ -91,9 +95,13 @@
             {% endfor %}
         </form>
     </div>
+
+    <audio id="typeSound" preload="auto" src="{{ url_for('static', filename='sounds/type.wav') }}"></audio>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const elements = document.querySelectorAll(".typewriter");
+            const sound = document.getElementById("typeSound");
 
             elements.forEach(el => {
                 const text = el.textContent;
@@ -103,6 +111,12 @@
                 function type() {
                     if (i < text.length) {
                         el.textContent += text.charAt(i);
+
+                        if (sound) {
+                            sound.currentTime = 0;
+                            sound.play();
+                        }
+
                         i++;
                         setTimeout(type, 40);
                     }
@@ -110,6 +124,38 @@
 
                 type();
             });
+
+            const sparkleContainer = document.querySelector(".sparkles");
+
+            if (sparkleContainer) {
+                setInterval(() => {
+                    const sparkle = document.createElement("span");
+
+                    sparkle.style.left = Math.random() * 100 + "%";
+                    sparkle.style.top = Math.random() * 100 + "%";
+                    sparkle.style.animationDuration = 2 + Math.random() * 2 + "s";
+
+                    sparkleContainer.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 4000);
+                }, 300);
+            }
+
+            const wizardSparkles = document.querySelector(".wizard-sparkles");
+
+            if (wizardSparkles) {
+                setInterval(() => {
+                    const sparkle = document.createElement("span");
+
+                    sparkle.style.left = Math.random() * 100 + "%";
+                    sparkle.style.top = Math.random() * 100 + "%";
+
+                    wizardSparkles.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 4000);
+                }, 500);
+            }
+
         });
     </script>
 
