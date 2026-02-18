@@ -15,13 +15,9 @@ def game():
         session['blessing'] = False
         session['scene'] = 'start'
         session['wizard_interacted'] = False
-
-    if 'fairy_interacted' not in session:
-        session['fairy_interacted'] = False   
-
-    if 'fairy_mood' not in session:
+        session['fairy_interacted'] = False
         session['fairy_mood'] = "neutral"
-    
+
     scene = session['scene']
     scene_text = ""
     options = []
@@ -74,7 +70,7 @@ def game():
         session['fairy_mood'] = "angry"
 
         scene_text = (
-            "The fairy watches silently as you pass."
+            "The fairy watches silently as you pass. "
             "The forest feels a little colder without her light."
         )
         options = [('continue', 'Continue quietly')]

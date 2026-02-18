@@ -101,62 +101,63 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const elements = document.querySelectorAll(".typewriter");
-            const sound = document.getElementById("typeSound");
+            const typeSound = document.getElementById("typeSound");
+
+            if (typeSound) {
+                typeSound.volume = 0;
+                typeSound.play().then(() => {
+                    typeSound.pause();
+                    typeSound.currentTime = 0;
+                    typeSound.volume = 0.25;
+                }).catch(() => {});
+            }
 
             elements.forEach(el => {
                 const text = el.textContent;
                 el.textContent = "";
                 let i = 0;
+                let typing = true;
 
                 function type() {
-                    if (i < text.length) {
+                    if (i < text.length && typing) {
                         el.textContent += text.charAt(i);
-
-                        if (sound) {
-                            sound.currentTime = 0;
-                            sound.play();
-                        }
-
                         i++;
                         setTimeout(type, 40);
                     }
                 }
 
+                el.addEventListener("click", () => {
+                    typing = false;
+                    el.textContent = text;
+                });
+
                 type();
             });
 
             const sparkleContainer = document.querySelector(".sparkles");
-
             if (sparkleContainer) {
                 setInterval(() => {
                     const sparkle = document.createElement("span");
-
                     sparkle.style.left = Math.random() * 100 + "%";
                     sparkle.style.top = Math.random() * 100 + "%";
                     sparkle.style.animationDuration = 2 + Math.random() * 2 + "s";
-
                     sparkleContainer.appendChild(sparkle);
-
                     setTimeout(() => sparkle.remove(), 4000);
                 }, 300);
             }
 
             const wizardSparkles = document.querySelector(".wizard-sparkles");
-
             if (wizardSparkles) {
                 setInterval(() => {
                     const sparkle = document.createElement("span");
-
                     sparkle.style.left = Math.random() * 100 + "%";
                     sparkle.style.top = Math.random() * 100 + "%";
-
                     wizardSparkles.appendChild(sparkle);
-
                     setTimeout(() => sparkle.remove(), 4000);
                 }, 500);
             }
-
         });
+
     </script>
 
 </body>
