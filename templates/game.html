@@ -48,12 +48,28 @@
                         <span class="typewriter">
                             ✨ "Hello traveler… I am Luma of the Moss. May this light guide you."
                         </span>
+
+                        <form action="{{ url_for('game') }}" method="post" class="dialogue-choices">
+                            {% for value, label in options %}
+                                <button type="submit" name="choice" value="{{ value }}" class="dialogue-btn">
+                                    {{ label }}
+                                </button>
+                            {% endfor %}
+                        </form>
                     </div>   
                 {% elif session.scene == 'fairy_ignore' %}
                     <div class="dialogue-box angry">
                         <span class="typewriter">
                             "...The forest remembers those who walk without kindness."
                         </span>
+
+                        <form action="{{ url_for('game') }}" method="post" class="dialogue-choices">
+                            {% for value, label in options %}
+                                <button type="submit" name="choice" value="{{ value }}" class="dialogue-btn">
+                                    {{ label }}
+                                </button>
+                            {% endfor %}
+                        </form>
                     </div>   
                 {% endif %}       
             </div>
@@ -75,6 +91,14 @@
                             <span class="typewriter">
                                 🌿 "The moss remembers kindness. Walk with courage, traveler."
                             </span>
+
+                            <form action="{{ url_for('game') }}" method="post" class="dialogue-choices">
+                                {% for value, label in options %}
+                                    <button type="submit" name="choice" value="{{ value }}" class="dialogue-btn">
+                                        {{ label }}
+                                    </button>
+                                {% endfor %}
+                            </form>
                         </div>
 
                     {% elif session.scene == 'wizard_pass' %}
@@ -82,18 +106,30 @@
                             <span class="typewriter">
                                 "Sneaking through ancient woods is rarely wise."
                             </span>
+
+                            <form action="{{ url_for('game') }}" method="post" class="dialogue-choices">
+                                {% for value, label in options %}
+                                    <button type="submit" name="choice" value="{{ value }}" class="dialogue-btn">
+                                        {{ label }}
+                                    </button>
+                                {% endfor %}
+                            </form>
                         </div>
                     {% endif %}          
             </div>
         {% endif %}
 
-        <form action="{{ url_for('game') }}" method="post" class="choices">
-            {% for value, label in options %}
-                <button type="submit" name="choice" value="{{ value }}" class="action-btn">
-                    {{ label }}
-                </button>
-            {% endfor %}
-        </form>
+        {% set in_dialogue = session.scene in ['fairy_help', 'fairy_ignore', 'wizard_talk', 'wizard_pass'] %}
+
+        {% if not in_dialogue %}
+            <form action="{{ url_for('game') }}" method="post" class="choices">
+                {% for value, label in options %}
+                    <button type="submit" name="choice" value="{{ value }}" class="action-btn">
+                        {{ label }}
+                    </button>
+                {% endfor %}
+            </form>
+        {% endif %}
     </div>
 
     <audio id="typeSound" preload="auto" src="{{ url_for('static', filename='sounds/type.wav') }}"></audio>

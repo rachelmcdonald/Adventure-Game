@@ -384,3 +384,9 @@ p {
         transform: translateY(-40px) rotate(45deg);
     }
 }
+
+.dialogue-choices {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;}
