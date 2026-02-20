@@ -306,6 +306,11 @@ p {
     color: #d8ffe8;
     font-size: 1.1rem;
     box-shadow: 0 0 12px #5cff8d;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dialogue-box.angry {
@@ -389,4 +394,28 @@ p {
     margin-top: 15px;
     display: flex;
     flex-direction: column;
-    gap: 8px;}
+    gap: 8px;
+    width: 100%;
+}
+
+.dialogue-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(200, 255, 200, 0.4);
+    color: #eaffea;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 0.9rem;
+    backdrop-filter: blur(4px);
+}
+
+
+.dialogue-btn:hover {
+    background: rgba(150, 255, 150, 0.25);
+    transform: translateX(4px);
+}
+
+.dialogue-box.angry .dialogue-btn:hover {
+    background: rgba(255, 120, 120, 0.25);
+}
