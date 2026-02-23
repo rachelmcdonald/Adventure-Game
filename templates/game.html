@@ -32,7 +32,7 @@
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
 
-        {% if session.scene in ['left', 'fairy_help', 'fairy_ignore'] %}
+        {% if 'fairy' in session.scene %}
             <div class="character-area">
                 <div class="fairy-wrapper
                     {% if session.scene == 'fairy_help' %} blessed {% endif %}
@@ -41,7 +41,7 @@
                     <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if session.scene == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
 
                     <div class="sparkles"></div>
-            </div>
+                </div>
 
                 {% if session.scene == 'fairy_help' %}
                     <div class="dialogue-box">
@@ -75,7 +75,7 @@
             </div>
         {% endif %}
 
-        {% if session.scene in ['right', 'wizard_talk', 'wizard_pass'] %}
+        {% if 'wizard' in session.scene or session.scene == 'right' %}
             <div class="character-area">
                 <div class="wizard-wrapper
                     {% if session.scene == 'wizard_talk' %} blessed {% endif %}

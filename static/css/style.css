@@ -173,6 +173,7 @@ p {
 .character-area {
     margin: 20px 0;
     text-align: center;
+    position: relative;
 }
 
 .fairy-sprite {
@@ -306,11 +307,11 @@ p {
     color: #d8ffe8;
     font-size: 1.1rem;
     box-shadow: 0 0 12px #5cff8d;
-    position: relative;
-    z-index: 10;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-height: 120px;
 }
 
 .dialogue-box.angry {
@@ -322,6 +323,11 @@ p {
 .blessed img {
     filter: drop-shadow(0 0 10px #7cffb2)
             drop-shadow(0 0 20px #7cffb2);
+}
+
+.typewriter {
+    display: block;
+    margin-bottom: 12px;
 }
 
 .typewriter::after {
@@ -396,6 +402,8 @@ p {
     flex-direction: column;
     gap: 8px;
     width: 100%;
+    position: relative;
+    z-index: 5;
 }
 
 .dialogue-btn {
@@ -409,7 +417,6 @@ p {
     font-size: 0.9rem;
     backdrop-filter: blur(4px);
 }
-
 
 .dialogue-btn:hover {
     background: rgba(150, 255, 150, 0.25);
