@@ -9,6 +9,12 @@ def home():
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
+
+    if request.method == 'POST':
+        choice = request.form.get('choice')
+        session['scene'] = choice
+        return redirect(url_for('game'))
+
     if 'gold' not in session:
         session['gold'] = 0
         session['courage'] = 1
@@ -91,7 +97,7 @@ def game():
         session['courage'] -= 1
         
         scene_text = (
-            "The wizard senses your hesitation."
+            "The wizard senses your hesitation. "
             "The forest grows colder around you."
         )
         options = [('continue', 'Push forward uneasily')]
@@ -117,12 +123,7 @@ def game():
         session.clear()
         return redirect(url_for('game'))
 
-    if request.method == 'POST':
-        choice = request.form.get('choice')
-        session['scene'] = choice
-        return redirect(url_for('game'))
-
-    return render_template('game.html', scene=scene_text, options=options)
+    return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options)
 
 
 if __name__ == '__main__':

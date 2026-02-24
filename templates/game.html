@@ -25,25 +25,31 @@
             🪙 Gold: {{ session.gold }}
             {% if session.blessing %}| ✨ Blessed{% endif %}
         </div>
+        <p style="color:yellow;">
+            SCENE NAME: {{ scene_name }}
+            </p>
+            <p style="color:cyan;">
+            COURAGE: {{ session.courage }}
+        </p>
 
-        {% if scene %}
-            <p class="scene-text">{{ scene }}</p>
+        {% if scene_text %}
+            <p class="scene-text">{{ scene_text }}</p>
         {% else %}
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
 
-        {% if 'fairy' in session.scene %}
+        {% if 'fairy' in scene_name %}
             <div class="character-area">
                 <div class="fairy-wrapper
-                    {% if session.scene == 'fairy_help' %} blessed {% endif %}
-                    {% if session.scene == 'fairy_ignore' %} offended {% endif %}
+                    {% if scene_name == 'fairy_help' %} blessed {% endif %}
+                    {% if scene_name == 'fairy_ignore' %} offended {% endif %}
                 ">
-                    <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if session.scene == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
+                    <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if scene_name == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
 
                     <div class="sparkles"></div>
                 </div>
 
-                {% if session.scene == 'fairy_help' %}
+                {% if scene_name == 'fairy_help' %}
                     <div class="dialogue-box">
                         <span class="typewriter">
                             ✨ "Hello traveler… I am Luma of the Moss. May this light guide you."
@@ -57,7 +63,7 @@
                             {% endfor %}
                         </form>
                     </div>   
-                {% elif session.scene == 'fairy_ignore' %}
+                {% elif scene_name == 'fairy_ignore' %}
                     <div class="dialogue-box angry">
                         <span class="typewriter">
                             "...The forest remembers those who walk without kindness."
@@ -75,17 +81,17 @@
             </div>
         {% endif %}
 
-        {% if 'wizard' in session.scene or session.scene == 'right' %}
+        {% if 'wizard' in scene_name or scene_name == 'right' %}
             <div class="character-area">
                 <div class="wizard-wrapper
-                    {% if session.scene == 'wizard_talk' %} blessed {% endif %}
-                    {% if session.scene == 'wizard_pass' %} offended {% endif %}
+                    {% if scene_name == 'wizard_talk' %} blessed {% endif %}
+                    {% if scene_name == 'wizard_pass' %} offended {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/wizard.png') }}" class="wizard-sprite">
 
                     <div class="wizard-sparkles"></div>
                 </div>
-                    {% if session.scene == 'wizard_talk' %}
+                    {% if scene_name == 'wizard_talk' %}
 
                         <div class="dialogue-box">
                             <span class="typewriter">
@@ -101,7 +107,7 @@
                             </form>
                         </div>
 
-                    {% elif session.scene == 'wizard_pass' %}
+                    {% elif scene_name == 'wizard_pass' %}
                         <div class="dialogue-box angry">
                             <span class="typewriter">
                                 "Sneaking through ancient woods is rarely wise."
@@ -119,7 +125,7 @@
             </div>
         {% endif %}
 
-        {% set in_dialogue = session.scene in ['fairy_help', 'fairy_ignore', 'wizard_talk', 'wizard_pass'] %}
+        {% set in_dialogue = scene_name in ['fairy_help', 'fairy_ignore', 'wizard_talk', 'wizard_pass'] %}
 
         {% if not in_dialogue %}
             <form action="{{ url_for('game') }}" method="post" class="choices">

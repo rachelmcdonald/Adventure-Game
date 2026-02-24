@@ -315,6 +315,17 @@ p {
 }
 
 .dialogue-box.angry {
+    margin: 15px auto;
+    padding: 15px 20px;
+    width: 60%;
+    background: rgba(0, 40, 20, 0.8);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-height: 120px;  
     border-color: #ff5c5c;
     box-shadow: 0 0 12px #ff5c5c;
     color: #ffdede;
