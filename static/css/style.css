@@ -187,7 +187,6 @@ p {
 
 .fairy-wrapper {
     display: inline-block;
-    animation: fairyBob 3s ease-in-out infinite;
 }
 
 @keyframes fairyBob {
@@ -200,7 +199,7 @@ p {
     animation: fairyFloat 2s ease-in-out infinite;
 }
 
-.fairy-blessed {
+.fairy--blessed {
     filter: drop-shadow(0 0 12px #7cff9e);
 }
 
@@ -208,11 +207,6 @@ p {
     0% { transform: translateX(0px); }
     50% { transform: translateX(8px); }
     100% { transform: translateX(0px); }
-}
-
-.offended {
-    animation: fairyShake 0.4s infinite;
-    filter: drop-shadow(0 0 8px red);
 }
 
 @keyframes fairyShake {
@@ -223,21 +217,10 @@ p {
     100% { transform: translateX(0px); }
 }
 
-.angry {
-    filter: drop-shadow(0 0 12px red);
-}
-
-.fairy-angry {
+.fairy--angry {
     filter: drop-shadow(0 0 12px #ff4d4d);
-}
-
-.shake {
-    animation: shake 0.4s infinite alternate;
-}
-
-@keyframes shake {
-    from { transform: translateX(-4px); }
-    to { transform: translateX(4px); }
+    animation: fairyBob 3s ease-in-out infinite,
+                fairyShake 0.4s infinite;
 }
 
 .bob {
@@ -272,15 +255,16 @@ p {
     animation: bob 3s ease-in-out infinite;
 }
 
-.wizard-wrapper.blessed .wizard-sprite {
+.wizard-wrapper--blessed .wizard-sprite {
     filter: drop-shadow(0 0 8px #9cffb4) drop-shadow(0 0 18px #5bd96b);
 }
 
-.wizard-wrapper.offended .wizard-sprite {
+.wizard-wrapper--angry .wizard-sprite {
     filter: drop-shadow(0 0 8px #ff6b6b) drop-shadow(0 0 18px #ff2e2e);
+    animation: bob 3s ease-in-out infinite, fairyShake 0.4s infinite alternate;
 }
 
-.wizard-wrapper.blessed::after {
+.wizard-wrapper--blessed::after {
     content: "";
     position: absolute;
     top: 40%;
@@ -298,37 +282,35 @@ p {
 }
 
 .dialogue-box {
-    margin: 15px auto;
-    padding: 15px 20px;
-    width: 60%;
-    background: rgba(0, 40, 20, 0.8);
-    border: 2px solid #5cff8d;
-    border-radius: 12px;
-    color: #d8ffe8;
-    font-size: 1.1rem;
-    box-shadow: 0 0 12px #5cff8d;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    min-height: 120px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(200, 255, 200, 0.4);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    overflow: visible;
+    z-index: 10;
 }
 
-.dialogue-box.angry {
-    margin: 15px auto;
-    padding: 15px 20px;
-    width: 60%;
-    background: rgba(0, 40, 20, 0.8);
-    border-radius: 12px;
-    font-size: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    min-height: 120px;  
+.dialogue-box--angry {
     border-color: #ff5c5c;
     box-shadow: 0 0 12px #ff5c5c;
     color: #ffdede;
+}
+
+.dialogue-box--blessed {
+    border-color: #8affc1;
+    box-shadow: 0 0 12px #8affc1;
+}
+
+.dialogue-box--blessed .dialogue-btn:hover {
+    background: rgba(150, 255, 150, 0.25);
 }
 
 .blessed img {
@@ -408,7 +390,7 @@ p {
 }
 
 .dialogue-choices {
-    margin-top: 15px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -421,7 +403,7 @@ p {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(200, 255, 200, 0.4);
     color: #eaffea;
-    padding: 8px 12px;
+    padding: 10px 14px;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.25s ease;
@@ -431,9 +413,9 @@ p {
 
 .dialogue-btn:hover {
     background: rgba(150, 255, 150, 0.25);
-    transform: translateX(4px);
+    transform: translateY(-2px);
 }
 
-.dialogue-box.angry .dialogue-btn:hover {
-    background: rgba(255, 120, 120, 0.25);
+.dialogue-box--angry .dialogue-btn:hover {
+    background: rgba(255, 120, 120, 0.25) !important;
 }

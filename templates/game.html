@@ -41,8 +41,8 @@
         {% if 'fairy' in scene_name %}
             <div class="character-area">
                 <div class="fairy-wrapper
-                    {% if scene_name == 'fairy_help' %} blessed {% endif %}
-                    {% if scene_name == 'fairy_ignore' %} offended {% endif %}
+                    {% if scene_name == 'fairy_help' %} fairy--blessed {% endif %}
+                    {% if scene_name == 'fairy_ignore' %} fairy--angry {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if scene_name == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
 
@@ -64,7 +64,7 @@
                         </form>
                     </div>   
                 {% elif scene_name == 'fairy_ignore' %}
-                    <div class="dialogue-box angry">
+                    <div class="dialogue-box dialogue-box--angry">
                         <span class="typewriter">
                             "...The forest remembers those who walk without kindness."
                         </span>
@@ -84,8 +84,8 @@
         {% if 'wizard' in scene_name or scene_name == 'right' %}
             <div class="character-area">
                 <div class="wizard-wrapper
-                    {% if scene_name == 'wizard_talk' %} blessed {% endif %}
-                    {% if scene_name == 'wizard_pass' %} offended {% endif %}
+                    {% if scene_name == 'wizard_talk' %} wizard-wrapper--blessed {% endif %}
+                    {% if scene_name == 'wizard_pass' %} wizard-wrapper--angry {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/wizard.png') }}" class="wizard-sprite">
 
@@ -108,7 +108,7 @@
                         </div>
 
                     {% elif scene_name == 'wizard_pass' %}
-                        <div class="dialogue-box angry">
+                        <div class="dialogue-box dialogue-box--angry">
                             <span class="typewriter">
                                 "Sneaking through ancient woods is rarely wise."
                             </span>
