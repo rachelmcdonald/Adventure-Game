@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+
+    {% set scene_name = scene_name or '' %}
+
     <div class="fireflies">
         <span></span>
         <span></span>
@@ -19,7 +22,7 @@
     </div>
 
     <div class="game-container">
-        
+
         <div class="stats">
             🌱 Courage: {{ session.courage }} |
             🪙 Gold: {{ session.gold }}
@@ -38,7 +41,7 @@
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
 
-        {% if 'fairy' in scene_name %}
+        {% if scene_name and 'fairy' in scene_name %}
             <div class="character-area">
                 <div class="fairy-wrapper
                     {% if scene_name == 'fairy_help' %} fairy--blessed {% endif %}
@@ -140,6 +143,8 @@
 
     <audio id="typeSound" preload="auto" src="{{ url_for('static', filename='sounds/type.wav') }}"></audio>
     
+    <div id="fade-overlay"></div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const elements = document.querySelectorAll(".typewriter");
@@ -198,6 +203,19 @@
                     setTimeout(() => sparkle.remove(), 4000);
                 }, 500);
             }
+
+            const overlay = document.getElementById("fade-overlay");
+
+            document.querySelectorAll("form").forEach(form => {
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();      
+                    overlay.classList.add("active");
+
+                    setTimeout(() => {
+                        form.submit();
+                    }, 600);          
+                });
+            });
         });
 
     </script>

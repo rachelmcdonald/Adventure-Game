@@ -24,7 +24,7 @@ def game():
         session['fairy_interacted'] = False
         session['fairy_mood'] = "neutral"
 
-    scene = session['scene']
+    scene = session.get('scene', 'start')
     scene_text = ""
     options = []
 
