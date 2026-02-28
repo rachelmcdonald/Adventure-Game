@@ -28,12 +28,6 @@
             🪙 Gold: {{ session.gold }}
             {% if session.blessing %}| ✨ Blessed{% endif %}
         </div>
-        <p style="color:yellow;">
-            SCENE NAME: {{ scene_name }}
-            </p>
-            <p style="color:cyan;">
-            COURAGE: {{ session.courage }}
-        </p>
 
         {% if scene_text %}
             <p class="scene-text">{{ scene_text }}</p>
@@ -144,7 +138,7 @@
     <audio id="typeSound" preload="auto" src="{{ url_for('static', filename='sounds/type.wav') }}"></audio>
     
     <div id="fade-overlay"></div>
-
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const elements = document.querySelectorAll(".typewriter");
@@ -206,16 +200,10 @@
 
             const overlay = document.getElementById("fade-overlay");
 
-            document.querySelectorAll("form").forEach(form => {
-                form.addEventListener("submit", function (e) {
-                    e.preventDefault();      
-                    overlay.classList.add("active");
-
-                    setTimeout(() => {
-                        form.submit();
-                    }, 600);          
-                });
+            window.addEventListener("beforeunload", function () {
+                overlay.classList.add("active");
             });
+
         });
 
     </script>

@@ -12,7 +12,10 @@ def game():
 
     if request.method == 'POST':
         choice = request.form.get('choice')
-        session['scene'] = choice
+
+        if choice:
+            session['scene'] = choice
+
         return redirect(url_for('game'))
 
     if 'gold' not in session:

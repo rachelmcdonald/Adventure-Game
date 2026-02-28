@@ -20,9 +20,17 @@
         </div>
 
         <div class="landing">
-        <h1>✨ Welcome to The Mosslit Path ✨</h1>
-        <p>Embark on a whimsical journey through enchanted forests, magical rivers, and mysterious creatures!</p>
-        <a href="{{ url_for('game') }}" class="begin-btn">Begin Journey</a>
-    </div>
+
+            <h1>✨ Welcome to The Mosslit Path ✨</h1>
+
+            <p>Embark on a whimsical journey through enchanted forests, magical rivers, and mysterious creatures!</p>
+            
+            <form action="{{ url_for('game') }}" method="POST">
+                    <button type="submit" name="choice" value="start" class="begin-btn">
+                        Begin Journey
+                    </button>
+            </form>
+            
+        </div>
     </body>
 </html>
