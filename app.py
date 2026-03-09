@@ -105,6 +105,36 @@ def game():
         )
         options = [('continue', 'Push forward uneasily')]
 
+    elif scene == 'werewolf':
+        if 'werewolf_hp' not in session:
+            session['werewolf_hp'] = 5
+
+        scene_text = (
+            "A feral werewolf leaps from the shadows! "
+            "Its glowing eyes lock onto you."
+        )
+        options = [
+            ('attack_werewolf', 'Attack the werewolf'),
+            ('run', 'Try to escape')
+        ]
+
+    elif scene == 'attack_werewolf':
+        session['werewolf_hp'] -= 1
+
+        if session['werewolf_hp'] <= 0:
+            scene_text = (
+                "The werewolf collapses into the moss. "
+                "You survived the encounter."
+            )
+            session['gold'] += 2
+            options = [('continue', 'Continue down the path')]
+        else:
+            scene_text = (
+                f"You strike the werewolf! "
+                f"It still has {session['werewolf_hp']} HP."
+            )
+            options = [('attack_werewolf', 'Attack again')]
+
     elif scene == 'continue':
         if session['courage'] <= 0:
             

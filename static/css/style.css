@@ -433,3 +433,13 @@ p {
 #fade-overlay.active {
     opacity: 1;
 }
+
+.werewolf-sprite {
+    width: 160px;
+    image-rendering: pixelated;
+    animation: bob 2.5s ease-in-out infinite;
+}
+
+.werewolf-wrapper {
+    margin: 20px auto;
+}

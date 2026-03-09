@@ -118,7 +118,22 @@
                                 {% endfor %}
                             </form>
                         </div>
-                    {% endif %}          
+                    {% endif %}     
+                    
+                    {% if 'werewolf' in scene_name %}
+                    <div class="character-area">
+
+                        <div class="werewolf-wrapper">
+
+                            <img src="{{ url_for('static', filename='images/werewolf.png') }}"
+                                class="werewolf-sprite"
+                                alt="Werewolf">
+
+                        </div>
+
+                    </div>
+                    {% endif %}
+
             </div>
         {% endif %}
 
