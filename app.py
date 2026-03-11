@@ -20,6 +20,7 @@ def game():
 
     if 'gold' not in session:
         session['gold'] = 0
+        session['xp'] = 0
         session['courage'] = 1
         session['blessing'] = False
         session['scene'] = 'start'
@@ -82,7 +83,7 @@ def game():
             "The fairy watches silently as you pass. "
             "The forest feels a little colder without her light."
         )
-        options = [('continue', 'Continue quietly')]
+        options = [('werewolf', 'Continue quietly')]
 
     elif scene == 'wizard_talk':
         session['wizard_interacted'] = True
@@ -127,6 +128,7 @@ def game():
                 "You survived the encounter."
             )
             session['gold'] += 2
+            session['xp'] += 3
             options = [('continue', 'Continue down the path')]
         else:
             scene_text = (
@@ -147,8 +149,12 @@ def game():
         else:
             scene_text = (
                 "You emerge into a mosslit clearing. "
-                "Fireflies dance as dawn breaks."
-                "\n\n🌿 Cozy Ending — You Win"
+                "Fireflies dance as dawn breaks.\n\n"
+                "🌿 Adventure Complete\n\n"
+                f"⭐ XP Earned: {session['xp']}\n"
+                f"🪙 Gold Collected: {session['gold']}\n"
+                f"🌱 Courage Remaining: {session['courage']}\n\n"
+                "Ending: Mosslit Wanderer"
             )
             options = [('restart', 'Play again')]
 

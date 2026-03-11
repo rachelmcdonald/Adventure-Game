@@ -26,6 +26,7 @@
         <div class="stats">
             🌱 Courage: {{ session.courage }} |
             🪙 Gold: {{ session.gold }}
+            ⭐ XP: {{ session.xp }}
             {% if session.blessing %}| ✨ Blessed{% endif %}
         </div>
 
@@ -35,7 +36,7 @@
             <p class="scene-text">Your adventure awaits! Press begin to start.</p>
         {% endif %}
 
-        {% if scene_name and 'fairy' in scene_name %}
+        {% if scene_name in ['left', 'fairy_help', 'fairy_ignore'] %}
             <div class="character-area">
                 <div class="fairy-wrapper
                     {% if scene_name == 'fairy_help' %} fairy--blessed {% endif %}
