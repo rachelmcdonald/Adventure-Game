@@ -119,21 +119,24 @@
                                 {% endfor %}
                             </form>
                         </div>
-                    {% endif %}     
-                    
-                    {% if 'werewolf' in scene_name %}
-                    <div class="character-area">
-
-                        <div class="werewolf-wrapper">
-
-                            <img src="{{ url_for('static', filename='images/werewolf.png') }}"
-                                class="werewolf-sprite"
-                                alt="Werewolf">
-
-                        </div>
-
-                    </div>
                     {% endif %}
+
+            </div>
+        {% endif %}
+
+        {% if 'werewolf' in scene_name %}
+            <div class="character-area">
+
+                <div class="werewolf-wrapper">
+
+                    <img src="{{ url_for('static', filename='images/werewolf.png') }}"
+                        class="werewolf-sprite
+                        {% if scene_name == 'werewolf' %}werewolf-pacing werewolf-warning{% endif %}
+                        {% if scene_name == 'attack_werewolf' %}werewolf-angry werewolf-hit{% endif %}
+                        {% if scene_name == 'werewolf_defeated' %}werewolf-defeated{% endif %}"
+                        alt="Werewolf">
+
+                </div>
 
             </div>
         {% endif %}

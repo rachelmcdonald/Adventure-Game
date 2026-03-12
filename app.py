@@ -27,6 +27,7 @@ def game():
         session['wizard_interacted'] = False
         session['fairy_interacted'] = False
         session['fairy_mood'] = "neutral"
+        
 
     scene = session.get('scene', 'start')
     scene_text = ""
@@ -123,19 +124,36 @@ def game():
         session['werewolf_hp'] -= 1
 
         if session['werewolf_hp'] <= 0:
-            scene_text = (
-                "The werewolf collapses into the moss. "
-                "You survived the encounter."
-            )
             session['gold'] += 2
             session['xp'] += 3
-            options = [('continue', 'Continue down the path')]
+            session['scene'] = 'werewolf_defeated'
+
+            return redirect(url_for('game'))
         else:
             scene_text = (
                 f"You strike the werewolf! "
                 f"It still has {session['werewolf_hp']} HP."
             )
-            options = [('attack_werewolf', 'Attack again')]
+            options = [('attack_werewolf', 'Attack again'),
+                        ('run', 'Attempt to escape')
+            ]
+
+    elif scene == 'werewolf_defeated': 
+        scene_text = ( 
+            "The werewolf collapses into the moss. " "Its glowing eyes fade into darkness." 
+        ) 
+        options = [('continue', 'Continue down the path')]
+
+    elif scene == 'run':
+
+        session['courage'] -= 1
+
+        scene_text = (
+            "You flee through the dark forest, the werewolf's howl fading behind you."
+            "\n\nYou escape… but the forest feels heavier now."
+        )
+
+        options = [('continue', 'Keep moving')]
 
     elif scene == 'continue':
         if session['courage'] <= 0:

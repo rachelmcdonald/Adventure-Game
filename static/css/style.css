@@ -437,9 +437,68 @@ p {
 .werewolf-sprite {
     width: 160px;
     image-rendering: pixelated;
-    animation: bob 2.5s ease-in-out infinite;
 }
 
 .werewolf-wrapper {
     margin: 20px auto;
+    position: relative;
+    display: inline-block;
+}
+
+@keyframes werewolfPace {
+    0% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    100% { transform: translateX(-6px); }
+}
+
+.werewolf-pacing {
+    animation: werewolfPace 1.8s ease-in-out infinite;
+}
+
+.werewolf-angry {
+    animation: wolfGlow 0.8s ease-in-out infinite alternate,
+               wolfBreath 1.2s ease-in-out infinite;
+}
+
+.werewolf-warning {
+    filter: drop-shadow(0 0 8px rgba(255, 180, 60, 0.8));
+}
+
+
+@keyframes wolfGlow {
+    from {
+        filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.6));
+    }
+    to {
+        filter: drop-shadow(0 0 16px rgba(255, 0, 0, 1));
+    }
+}
+
+@keyframes wolfBreath {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@keyframes wolfHit {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+.werewolf-hit {
+    animation: wolfHit 0.25s ease;
+}
+
+@keyframes wolfDefeat {
+    0% { transform: rotate(0deg) scale(1); opacity:1; }
+    40% { transform: rotate(-20deg) scale(0.95); }
+    100% { transform: rotate(-90deg) scale(0.7); opacity:0.5; }
+}
+
+.werewolf-defeated {
+    animation: wolfDefeat 1s ease forwards;
+    filter: grayscale(80%);
 }
