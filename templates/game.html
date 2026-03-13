@@ -39,7 +39,7 @@
         {% if scene_name in ['left', 'fairy_help', 'fairy_ignore'] %}
             <div class="character-area">
                 <div class="fairy-wrapper
-                    {% if scene_name == 'fairy_help' %} fairy--blessed {% endif %}
+                    {% if scene_name in ['left', 'fairy_help'] %} fairy--blessed {% endif %}
                     {% if scene_name == 'fairy_ignore' %} fairy--angry {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/fairy.png') }}" class="fairy-sprite {% if scene_name == 'left' %}bob{% else %}sway{% endif %}" alt="Forest Fairy"/>
@@ -82,7 +82,7 @@
         {% if 'wizard' in scene_name or scene_name == 'right' %}
             <div class="character-area">
                 <div class="wizard-wrapper
-                    {% if scene_name == 'wizard_talk' %} wizard-wrapper--blessed {% endif %}
+                    {% if scene_name in ['right', 'wizard_talk'] %} wizard-wrapper--blessed {% endif %}
                     {% if scene_name == 'wizard_pass' %} wizard-wrapper--angry {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/wizard.png') }}" class="wizard-sprite">

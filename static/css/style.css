@@ -199,8 +199,9 @@ p {
     animation: fairyFloat 2s ease-in-out infinite;
 }
 
-.fairy--blessed {
-    filter: drop-shadow(0 0 12px #7cff9e);
+.fairy--blessed .fairy-sprite {
+    filter: drop-shadow(0 0 12px #7cff9e)
+            drop-shadow(0 0 22px #7cff9e);
 }
 
 @keyframes fairyFloat {
@@ -489,7 +490,10 @@ p {
 }
 
 .werewolf-hit {
-    animation: wolfHit 0.25s ease;
+    animation: 
+        wolfGlow 0.8s ease-in-out infinite alternate,
+        wolfBreath 1.2s ease-in-out infinite,
+        wolfHit 0.25s ease;
 }
 
 @keyframes wolfDefeat {

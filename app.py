@@ -108,8 +108,7 @@ def game():
         options = [('continue', 'Push forward uneasily')]
 
     elif scene == 'werewolf':
-        if 'werewolf_hp' not in session:
-            session['werewolf_hp'] = 5
+        session['werewolf_hp'] = session.get('werewolf_hp', 5)
 
         scene_text = (
             "A feral werewolf leaps from the shadows! "
@@ -126,6 +125,8 @@ def game():
         if session['werewolf_hp'] <= 0:
             session['gold'] += 2
             session['xp'] += 3
+            session.pop('entered_werewolf', None)
+            session.pop('werewolf_hp', None)
             session['scene'] = 'werewolf_defeated'
 
             return redirect(url_for('game'))
