@@ -30,6 +30,10 @@
             {% if session.blessing %}| ✨ Blessed{% endif %}
         </div>
 
+        {% if session.blessing %}
+            <div class="ambient-glow"></div>
+        {% endif %}
+
         {% if scene_text %}
             <p class="scene-text">{{ scene_text }}</p>
         {% else %}
@@ -124,7 +128,17 @@
             </div>
         {% endif %}
 
-        {% if 'werewolf' in scene_name %}
+        {% if scene_name in ['werewolf', 'attack_werewolf'] and session.get('werewolf_hp') %}
+            
+            <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
+                <div class="hp-bar">
+                    <div class="hp-fill" style="width: {{ (session.werewolf_hp / session.werewolf_max_hp) * 100 }}%;"></div>
+                </div>
+                <div class="hp-text">
+                    ❤️ {{ session.werewolf_hp }} / {{ session.werewolf_max_hp }}
+                </div>
+            </div>
+
             <div class="character-area">
 
                 <div class="werewolf-wrapper">

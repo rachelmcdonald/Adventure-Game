@@ -108,6 +108,7 @@ def game():
         options = [('continue', 'Push forward uneasily')]
 
     elif scene == 'werewolf':
+        session['werewolf_max_hp'] = 5
         session['werewolf_hp'] = session.get('werewolf_hp', 5)
 
         scene_text = (
@@ -121,12 +122,14 @@ def game():
 
     elif scene == 'attack_werewolf':
         session['werewolf_hp'] -= 1
+        session['just_hit'] = True
 
         if session['werewolf_hp'] <= 0:
             session['gold'] += 2
             session['xp'] += 3
             session.pop('entered_werewolf', None)
             session.pop('werewolf_hp', None)
+            session.pop('just_hit', None)
             session['scene'] = 'werewolf_defeated'
 
             return redirect(url_for('game'))
@@ -181,7 +184,7 @@ def game():
         session.clear()
         return redirect(url_for('game'))
 
-    return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options)
+    return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options, just_hit=session.pop('just_hit', False))
 
 
 if __name__ == '__main__':
