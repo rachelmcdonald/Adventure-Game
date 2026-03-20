@@ -595,3 +595,13 @@ p {
         transform: scale(1);
     }
 }
+
+.troll-sprite {
+    width: 180px;
+    image-rendering: pixelated;
+    animation: bob 3s ease-in-out infinite;
+}
+
+.troll-wrapper {
+    margin: 20px auto;
+}

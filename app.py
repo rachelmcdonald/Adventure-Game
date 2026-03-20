@@ -159,6 +159,53 @@ def game():
 
         options = [('continue', 'Keep moving')]
 
+    elif scene == 'troll':
+        session['troll_hp'] = session.get('troll_hp', 6)
+        session['troll_max_hp'] = 6
+
+        scene_text = (
+            "A massive troll blocks your path! "
+            "It grips a crude club and snarls."
+        )
+
+        options = [
+            ('attack_troll', 'Attack the troll'),
+            ('run', 'Try to escape')
+        ]
+
+    elif scene == 'attack_troll':
+        session['troll_hp'] -= 1
+        session['just_hit'] = True
+
+        if session['troll_hp'] <= 0:
+            session['gold'] += 3
+            session['xp'] += 4
+
+            session.pop('troll_hp', None)
+            session.pop('just_hit', None)
+
+            session['scene'] = 'troll_defeated'
+            return redirect(url_for('game'))
+
+        else:
+            scene_text = (
+                f"You strike the troll! "
+                f"It still has {session['troll_hp']} HP."
+            )
+
+            options = [
+                ('attack_troll', 'Attack again'),
+                ('run', 'Attempt to escape')
+            ]
+
+    elif scene == 'troll_defeated':
+        scene_text = (
+            "The troll collapses with a heavy thud. "
+            "The path is clear once more."
+        )
+
+        options = [('continue', 'Continue forward')]
+
     elif scene == 'continue':
         if session['courage'] <= 0:
             
@@ -168,6 +215,11 @@ def game():
                 "\n\n🌑 Bad Ending"
             )
             options = [('restart', 'Begin again')]
+
+        elif session.get('wizard_interacted'):
+            session['scene'] = 'troll
+            return redirect(url_for('game'))'
+
         else:
             scene_text = (
                 "You emerge into a mosslit clearing. "

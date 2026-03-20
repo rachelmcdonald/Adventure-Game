@@ -155,6 +155,30 @@
             </div>
         {% endif %}
 
+        {% if scene_name in ['troll', 'attack_troll'] and session.get('troll_hp') %}
+
+            {% set max_hp = session.troll_max_hp or 1 %}
+            {% set hp_percent = (session.troll_hp / max_hp) * 100 %}
+
+            <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
+                <div class="hp-bar">
+                    <div class="hp-fill" style="width: {{ hp_percent }}%;"></div>
+                </div>
+                <div class="hp-text">
+                    ❤️ {{ session.troll_hp }} / {{ session.troll_max_hp }}
+                </div>
+            </div>
+
+            <div class="character-area">
+                <div class="troll-wrapper">
+                    <img src="{{ url_for('static', filename='images/troll.png') }}"
+                        class="troll-sprite"
+                        alt="Troll">
+                </div>
+            </div>
+
+        {% endif %}
+
         {% set in_dialogue = scene_name in ['fairy_help', 'fairy_ignore', 'wizard_talk', 'wizard_pass'] %}
 
         {% if not in_dialogue %}
