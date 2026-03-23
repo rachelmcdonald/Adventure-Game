@@ -88,6 +88,7 @@ def game():
 
     elif scene == 'wizard_talk':
         session['wizard_interacted'] = True
+        session['came_from'] = 'wizard_talk'
         session['courage'] += 1
         session['gold'] +=1
         
@@ -99,6 +100,7 @@ def game():
 
     elif scene == 'wizard_pass':
         session['wizard_interacted'] = True
+        session['came_from'] = 'wizard_pass'
         session['courage'] -= 1
         
         scene_text = (
@@ -149,7 +151,6 @@ def game():
         options = [('continue', 'Continue down the path')]
 
     elif scene == 'run':
-
         session['courage'] -= 1
 
         scene_text = (
@@ -170,7 +171,7 @@ def game():
 
         options = [
             ('attack_troll', 'Attack the troll'),
-            ('run', 'Try to escape')
+            ('run_troll', 'Try to escape')
         ]
 
     elif scene == 'attack_troll':
@@ -195,10 +196,11 @@ def game():
 
             options = [
                 ('attack_troll', 'Attack again'),
-                ('run', 'Attempt to escape')
+                ('run_troll', 'Attempt to escape')
             ]
 
     elif scene == 'troll_defeated':
+        session['troll_defeated'] = True
         scene_text = (
             "The troll collapses with a heavy thud. "
             "The path is clear once more."
@@ -207,18 +209,22 @@ def game():
         options = [('continue', 'Continue forward')]
 
     elif scene == 'continue':
+
+        if (
+            session.get('came_from') == 'wizard_pass'
+            and not session.get('troll_defeated')
+            and not session.get('escaped_troll')
+        ):
+            session['scene'] = 'troll'
+            return redirect(url_for('game'))
+        
         if session['courage'] <= 0:
-            
             scene_text = (
                 "The forest overwhelms you. "
                 "You curl beneath the moss and drift into sleep."
                 "\n\n🌑 Bad Ending"
             )
             options = [('restart', 'Begin again')]
-
-        elif session.get('wizard_interacted'):
-            session['scene'] = 'troll
-            return redirect(url_for('game'))'
 
         else:
             scene_text = (

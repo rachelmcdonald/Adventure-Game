@@ -130,6 +130,9 @@
 
         {% if scene_name in ['werewolf', 'attack_werewolf'] and session.get('werewolf_hp') %}
             
+            {% set max_hp = session.get('werewolf_max_hp', 1) %}
+            {% set hp_percent = (session.werewolf_hp / max_hp) * 100 %}
+
             <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
                 <div class="hp-bar">
                     <div class="hp-fill" style="width: {{ (session.werewolf_hp / session.werewolf_max_hp) * 100 }}%;"></div>
@@ -138,7 +141,9 @@
                     ❤️ {{ session.werewolf_hp }} / {{ session.werewolf_max_hp }}
                 </div>
             </div>
+        {% endif %}
 
+        {% if 'werewolf' in scene_name %}
             <div class="character-area">
 
                 <div class="werewolf-wrapper">
@@ -172,11 +177,18 @@
             <div class="character-area">
                 <div class="troll-wrapper">
                     <img src="{{ url_for('static', filename='images/troll.png') }}"
-                        class="troll-sprite"
+                        class="troll-sprite
+                        {% if scene_name == 'troll' %}troll-warning{% endif %}
+                        {% if scene_name == 'attack_troll' %}troll-angry troll-hit{% endif %}"
                         alt="Troll">
                 </div>
             </div>
 
+        {% endif %}
+
+        {% if scene_name == 'troll_defeated' %}
+            <img src="{{ url_for('static', filename='images/troll.png') }}"
+                class="troll-sprite troll-defeated">
         {% endif %}
 
         {% set in_dialogue = scene_name in ['fairy_help', 'fairy_ignore', 'wizard_talk', 'wizard_pass'] %}

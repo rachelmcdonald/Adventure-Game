@@ -605,3 +605,39 @@ p {
 .troll-wrapper {
     margin: 20px auto;
 }
+
+.troll-warning {
+    filter: drop-shadow(0 0 10px rgba(255, 180, 60, 0.8));
+}
+
+@keyframes trollGlow {
+    from {
+        filter: drop-shadow(0 0 6px rgba(255, 120, 0, 0.6));
+    }
+    to {
+        filter: drop-shadow(0 0 16px rgba(255, 140, 0, 1));
+    }
+}
+
+.troll-angry {
+    animation: trollGlow 0.8s ease-in-out infinite alternate,
+               wolfBreath 1.2s ease-in-out infinite;
+}
+
+.troll-hit {
+    animation:
+        trollGlow 0.8s ease-in-out infinite alternate,
+        wolfBreath 1.2s ease-in-out infinite,
+        wolfHit 0.25s ease;
+}
+
+@keyframes trollDefeat {
+    0% { transform: rotate(0deg) scale(1); opacity:1; }
+    40% { transform: rotate(-15deg) scale(0.95); }
+    100% { transform: rotate(-85deg) scale(0.7); opacity:0.5; }
+}
+
+.troll-defeated {
+    animation: trollDefeat 1s ease forwards;
+    filter: grayscale(80%);
+}
