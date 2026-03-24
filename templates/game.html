@@ -133,6 +133,10 @@
             {% set max_hp = session.get('werewolf_max_hp', 1) %}
             {% set hp_percent = (session.werewolf_hp / max_hp) * 100 %}
 
+            <div class="player-hp">
+                ❤️ You: {{ session.get('player_hp', 0) }} / {{ session.get('player_max_hp', 0) }}
+            </div>
+
             <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
                 <div class="hp-bar">
                     <div class="hp-fill" style="width: {{ (session.werewolf_hp / session.werewolf_max_hp) * 100 }}%;"></div>

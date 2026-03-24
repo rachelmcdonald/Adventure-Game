@@ -641,3 +641,9 @@ p {
     animation: trollDefeat 1s ease forwards;
     filter: grayscale(80%);
 }
+
+.player-hp {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #ffdddd;
+}

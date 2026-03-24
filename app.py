@@ -152,6 +152,7 @@ def game():
 
     elif scene == 'run':
         session['courage'] -= 1
+        session.pop('came_from', None)
 
         scene_text = (
             "You flee through the dark forest, the werewolf's howl fading behind you."
@@ -161,8 +162,10 @@ def game():
         options = [('continue', 'Keep moving')]
 
     elif scene == 'troll':
-        session['troll_hp'] = session.get('troll_hp', 6)
+        session['player_hp'] = session.get('player_hp', 10)
+        session['player_max_hp'] = session.get('player_max_hp', 10)
         session['troll_max_hp'] = 6
+        session['troll_hp'] = 6
 
         scene_text = (
             "A massive troll blocks your path! "
@@ -175,8 +178,25 @@ def game():
         ]
 
     elif scene == 'attack_troll':
+        session['player_hp'] = session.get('player_hp', 10)
+        session['player_max_hp'] = session.get('player_max_hp', 10)
         session['troll_hp'] -= 1
+        session['player_hp'] -= 2
         session['just_hit'] = True
+
+        if session['player_hp'] <= 0:
+            scene_text (
+                "The troll's club crashes down.\n\n"
+                "Everything fades to black...\n\n"
+                "💀 You were defeated."
+            )
+            options = [('restart', 'Try again')]
+            return render_template(
+                'game.html', 
+                scene_text=scene_text, 
+                scene_name=scene, 
+                options=options
+            )
 
         if session['troll_hp'] <= 0:
             session['gold'] += 3
@@ -188,16 +208,15 @@ def game():
             session['scene'] = 'troll_defeated'
             return redirect(url_for('game'))
 
-        else:
-            scene_text = (
-                f"You strike the troll! "
-                f"It still has {session['troll_hp']} HP."
-            )
+        scene_text = (
+            f"You strike the troll! "
+            f"It still has {session['troll_hp']} HP."
+        )
 
-            options = [
-                ('attack_troll', 'Attack again'),
-                ('run_troll', 'Attempt to escape')
-            ]
+        options = [
+            ('attack_troll', 'Attack again'),
+            ('run_troll', 'Attempt to escape')
+        ]
 
     elif scene == 'troll_defeated':
         session['troll_defeated'] = True
@@ -208,6 +227,19 @@ def game():
 
         options = [('continue', 'Continue forward')]
 
+    elif scene == 'run_troll':
+        session['courage'] -= 1
+        session['escaped_troll'] = True
+        session.pop('came_from', None)
+
+        scene_text = (
+            "You scramble away as the troll bellows behind you. "
+            "Each step shakes the ground beneath your feet...\n\n"
+            "You escape... but your nerves are rattled."
+        )
+
+        options = [('continue', 'Keep moving')]
+
     elif scene == 'continue':
 
         if (
@@ -215,6 +247,7 @@ def game():
             and not session.get('troll_defeated')
             and not session.get('escaped_troll')
         ):
+            session.pop('came_from', None)
             session['scene'] = 'troll'
             return redirect(url_for('game'))
         
@@ -240,7 +273,13 @@ def game():
 
     elif scene == 'restart':
         session.clear()
+        session['player_max_hp'] = 10
+        session['player_hp'] = 10
         return redirect(url_for('game'))
+
+    else:
+        scene_text = "The forest grows quiet... too quiet."
+        options = [('restart', 'Begin again')]
 
     return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options, just_hit=session.pop('just_hit', False))
 
