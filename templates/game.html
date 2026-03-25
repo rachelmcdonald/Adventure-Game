@@ -128,21 +128,34 @@
             </div>
         {% endif %}
 
-        {% if scene_name in ['werewolf', 'attack_werewolf'] and session.get('werewolf_hp') %}
+        {% if scene_name in ['werewolf', 'attack_werewolf', 'troll', 'attack_troll'] %}
             
-            {% set max_hp = session.get('werewolf_max_hp', 1) %}
-            {% set hp_percent = (session.werewolf_hp / max_hp) * 100 %}
+            {% if 'werewolf' in scene_name %}
+                🐺 Werewolf   
+            {% set enemy_hp = session.get('werewolf_hp', 0) %}
+                {% set enemy_max_hp = session.get('werewolf_max_hp', 1) %}
+            {% elif 'troll' in scene_name %}
+                🧌 Troll
+                {% set enemy_hp = session.get('troll_hp', 0) %}
+                {% set enemy_max_hp = session.get('troll_max_hp', 1) %}
+            {% endif %}
+
+            {% set hp_percent = (enemy_hp / enemy_max_hp) * 100 %}
+
+            {% set player_hp = session.get('player_hp', 0) %}
+            {% set player_max_hp = session.get('player_max_hp', 1) %}
+            {% set player_percent = (player_hp / player_max_hp) * 100 %}
 
             <div class="player-hp">
-                ❤️ You: {{ session.get('player_hp', 0) }} / {{ session.get('player_max_hp', 0) }}
+                ❤️ You: {{ player_hp }} / {{ player_max_hp }}
             </div>
 
             <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
                 <div class="hp-bar">
-                    <div class="hp-fill" style="width: {{ (session.werewolf_hp / session.werewolf_max_hp) * 100 }}%;"></div>
+                    <div class="hp-fill" style="width: {{ player_percent }}%;"></div>
                 </div>
                 <div class="hp-text">
-                    ❤️ {{ session.werewolf_hp }} / {{ session.werewolf_max_hp }}
+                    ❤️ {{ enemy_hp }} / {{ enemy_max_hp }}
                 </div>
             </div>
         {% endif %}
@@ -164,19 +177,7 @@
             </div>
         {% endif %}
 
-        {% if scene_name in ['troll', 'attack_troll'] and session.get('troll_hp') %}
-
-            {% set max_hp = session.troll_max_hp or 1 %}
-            {% set hp_percent = (session.troll_hp / max_hp) * 100 %}
-
-            <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
-                <div class="hp-bar">
-                    <div class="hp-fill" style="width: {{ hp_percent }}%;"></div>
-                </div>
-                <div class="hp-text">
-                    ❤️ {{ session.troll_hp }} / {{ session.troll_max_hp }}
-                </div>
-            </div>
+        {% if scene_name in ['troll', 'attack_troll'] %}
 
             <div class="character-area">
                 <div class="troll-wrapper">

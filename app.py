@@ -185,7 +185,7 @@ def game():
         session['just_hit'] = True
 
         if session['player_hp'] <= 0:
-            scene_text (
+            scene_text = (
                 "The troll's club crashes down.\n\n"
                 "Everything fades to black...\n\n"
                 "💀 You were defeated."
@@ -220,6 +220,8 @@ def game():
 
     elif scene == 'troll_defeated':
         session['troll_defeated'] = True
+        session.pop('troll_hp', None)
+        session.pop('escaped_troll', None)
         scene_text = (
             "The troll collapses with a heavy thud. "
             "The path is clear once more."
