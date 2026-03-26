@@ -129,18 +129,6 @@
         {% endif %}
 
         {% if scene_name in ['werewolf', 'attack_werewolf', 'troll', 'attack_troll'] %}
-            
-            {% if 'werewolf' in scene_name %}
-                🐺 Werewolf   
-            {% set enemy_hp = session.get('werewolf_hp', 0) %}
-                {% set enemy_max_hp = session.get('werewolf_max_hp', 1) %}
-            {% elif 'troll' in scene_name %}
-                🧌 Troll
-                {% set enemy_hp = session.get('troll_hp', 0) %}
-                {% set enemy_max_hp = session.get('troll_max_hp', 1) %}
-            {% endif %}
-
-            {% set hp_percent = (enemy_hp / enemy_max_hp) * 100 %}
 
             {% set player_hp = session.get('player_hp', 0) %}
             {% set player_max_hp = session.get('player_max_hp', 1) %}
@@ -150,14 +138,33 @@
                 ❤️ You: {{ player_hp }} / {{ player_max_hp }}
             </div>
 
+            <div class="hp-bar-container">
+                <div class="hp-bar">
+                    <div class="hp-fill player-fill" style="width: {{ player_percent }}%;"></div>
+                </div>
+            </div>
+
+            {% if 'werewolf' in scene_name %}
+                <div class="enemy-name">🐺 Werewolf</div>
+                {% set enemy_hp = session.get('werewolf_hp', 0) %}
+                {% set enemy_max_hp = session.get('werewolf_max_hp', 1) %}
+            {% elif 'troll' in scene_name %}
+                <div class="enemy-name">🧌 Troll</div>
+                {% set enemy_hp = session.get('troll_hp', 0) %}
+                {% set enemy_max_hp = session.get('troll_max_hp', 1) %}
+            {% endif %}
+
+            {% set hp_percent = (enemy_hp / enemy_max_hp) * 100 %}
+
             <div class="hp-bar-container {% if just_hit %}hp-hit{% endif %}">
                 <div class="hp-bar">
-                    <div class="hp-fill" style="width: {{ player_percent }}%;"></div>
+                    <div class="hp-fill enemy-fill" style="width: {{ hp_percent }}%;"></div>
                 </div>
                 <div class="hp-text">
                     ❤️ {{ enemy_hp }} / {{ enemy_max_hp }}
                 </div>
             </div>
+
         {% endif %}
 
         {% if 'werewolf' in scene_name %}
