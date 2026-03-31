@@ -34,9 +34,12 @@ def game():
     options = []
 
     if scene == 'start':
+        session['class'] = 'elven_ranger'
+
         scene_text = (
+            "You are Elven — a ranger of the wilds.\n\n"
+            "You steady your breath as the forest watches.\n\n"
             "You stand at the edge of an ancient forest. "
-            "Moonlight glimmers on moss-covered roots."
         )
         options = [
             ('left', 'Go left toward the glowing mushrooms'),

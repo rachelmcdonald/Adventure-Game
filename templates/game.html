@@ -30,6 +30,18 @@
             {% if session.blessing %}| ✨ Blessed{% endif %}
         </div>
 
+        {% if session.get('class') == 'elven_ranger' and scene_name == 'start' %}
+            <div class="character-area">
+                <div class="player-wrapper">
+                    <img src="{{ url_for('static', filename='images/elven.png') }}"
+                        class="player-sprite"
+                        alt="Elven Ranger">
+                </div>
+
+                <div class="enemy-name">🏹 Elven Ranger</div>
+            </div>
+        {% endif %}
+
         {% if session.blessing %}
             <div class="ambient-glow"></div>
         {% endif %}
@@ -134,8 +146,9 @@
             {% set player_max_hp = session.get('player_max_hp', 1) %}
             {% set player_percent = (player_hp / player_max_hp) * 100 %}
 
+            <div class="enemy-name">🧝 You</div>
             <div class="player-hp">
-                ❤️ You: {{ player_hp }} / {{ player_max_hp }}
+                ❤️ {{ player_hp }} / {{ player_max_hp }}
             </div>
 
             <div class="hp-bar-container">
