@@ -674,3 +674,7 @@ p {
     50% { transform: translateY(-4px); }
     100% { transform: translateY(0px); }
 }
+
+.hp-hit {
+    animation: hpFlash 0.25s ease, hpShake 0.25s ease;
+}

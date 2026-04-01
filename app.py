@@ -5,7 +5,9 @@ app.secret_key = "mosslit-secret-key"
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    if 'scene' in session:
+        return redirect('/game')
+    return redirect('/start')
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
@@ -30,6 +32,15 @@ def game():
         
 
     scene = session.get('scene', 'start')
+    
+    if 'visited_scenes' not in session:
+        session['visited_scenes'] = []
+
+    first_visit = scene not in session['visited_scenes']
+
+    if first_visit:
+        session['visited_scenes'].append(scene)
+    
     scene_text = ""
     options = []
 
@@ -67,10 +78,11 @@ def game():
         ]
 
     elif scene == 'fairy_help':
-        session['gold'] += 1
-        session['blessing'] = True
-        session['fairy_interacted'] = True
-        session['fairy_mood'] = "happy"
+        if first_visit:
+            session['gold'] += 1
+            session['blessing'] = True
+            session['fairy_interacted'] = True
+            session['fairy_mood'] = "happy"
 
         scene_text = (
             "The fairy smiles warmly and sprinkles glowing spores over you. "
@@ -79,9 +91,10 @@ def game():
         options = [('continue', 'Thank her and continue')]
 
     elif scene == 'fairy_ignore':
-        session['courage'] -= 1
-        session['fairy_interacted'] = True
-        session['fairy_mood'] = "angry"
+        if first_visit:
+            session['courage'] -= 1
+            session['fairy_interacted'] = True
+            session['fairy_mood'] = "angry"
 
         scene_text = (
             "The fairy watches silently as you pass. "
@@ -90,10 +103,11 @@ def game():
         options = [('werewolf', 'Continue quietly')]
 
     elif scene == 'wizard_talk':
-        session['wizard_interacted'] = True
-        session['came_from'] = 'wizard_talk'
-        session['courage'] += 1
-        session['gold'] +=1
+        if first_visit:
+            session['wizard_interacted'] = True
+            session['came_from'] = 'wizard_talk'
+            session['courage'] += 1
+            session['gold'] +=1
         
         scene_text = (
             "The wizard nods slowly. "
@@ -102,9 +116,10 @@ def game():
         options = [('continue', 'Continue along the glowing path')]
 
     elif scene == 'wizard_pass':
-        session['wizard_interacted'] = True
-        session['came_from'] = 'wizard_pass'
-        session['courage'] -= 1
+        if first_visit:
+            session['wizard_interacted'] = True
+            session['came_from'] = 'wizard_pass'
+            session['courage'] -= 1
         
         scene_text = (
             "The wizard senses your hesitation. "
@@ -186,6 +201,7 @@ def game():
         session['troll_hp'] -= 1
         session['player_hp'] -= 2
         session['just_hit'] = True
+        session['player_hit'] = True
 
         if session['player_hp'] <= 0:
             scene_text = (
@@ -286,7 +302,7 @@ def game():
         scene_text = "The forest grows quiet... too quiet."
         options = [('restart', 'Begin again')]
 
-    return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options, just_hit=session.pop('just_hit', False))
+    return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options, just_hit=session.pop('just_hit', False), player_hit=session.pop('player_hit', False))
 
 
 if __name__ == '__main__':

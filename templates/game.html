@@ -151,7 +151,7 @@
                 ❤️ {{ player_hp }} / {{ player_max_hp }}
             </div>
 
-            <div class="hp-bar-container">
+            <div class="hp-bar-container {% if player_hit %}hp-hit{% endif %}">
                 <div class="hp-bar">
                     <div class="hp-fill player-fill" style="width: {{ player_percent }}%;"></div>
                 </div>
