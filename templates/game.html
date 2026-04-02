@@ -146,6 +146,13 @@
             {% set player_max_hp = session.get('player_max_hp', 1) %}
             {% set player_percent = (player_hp / player_max_hp) * 100 %}
 
+            <div class="player-sprite-container">
+                <img 
+                    src="{{ url_for('static', filename='images/elven.png') }}" 
+                    class="player-sprite idle"
+                >
+            </div>
+
             <div class="enemy-name">🧝 You</div>
             <div class="player-hp">
                 ❤️ {{ player_hp }} / {{ player_max_hp }}

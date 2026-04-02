@@ -663,7 +663,7 @@ p {
 }
 
 .player-sprite {
-    width: 110px;
+    width: 120px;
     image-rendering: pixelated;
     filter: drop-shadow(0 0 6px rgba(120, 255, 180, 0.4));
     animation: floatIdle 3s ease-in-out infinite;
@@ -677,4 +677,14 @@ p {
 
 .hp-hit {
     animation: hpFlash 0.25s ease, hpShake 0.25s ease;
+}
+
+.player-sprite-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.player-sprite-idle {
+    animation: float 2s ease-in-out infinite;
 }

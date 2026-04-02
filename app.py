@@ -9,6 +9,11 @@ def home():
         return redirect('/game')
     return redirect('/start')
 
+@app.route('/reset')
+def reset():
+    session.clear()
+    return redirect('/start')
+
 @app.route('/game', methods=['GET', 'POST'])
 def game():
 
