@@ -149,7 +149,7 @@
             <div class="player-sprite-container">
                 <img 
                     src="{{ url_for('static', filename='images/elven.png') }}" 
-                    class="player-sprite idle"
+                    class="player-sprite idle {% if player_hit %}player-hit{% endif %}"
                 >
             </div>
 

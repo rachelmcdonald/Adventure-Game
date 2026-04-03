@@ -5,14 +5,12 @@ app.secret_key = "mosslit-secret-key"
 
 @app.route('/')
 def home():
-    if 'scene' in session:
-        return redirect('/game')
-    return redirect('/start')
+    return redirect(url_for('game'))
 
 @app.route('/reset')
 def reset():
     session.clear()
-    return redirect('/start')
+    return redirect(url_for('game'))
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
@@ -219,7 +217,8 @@ def game():
                 'game.html', 
                 scene_text=scene_text, 
                 scene_name=scene, 
-                options=options
+                options=options,
+                player_hit=True
             )
 
         if session['troll_hp'] <= 0:

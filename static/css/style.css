@@ -524,10 +524,6 @@ p {
     box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
 }
 
-.hp-hit {
-    animation: hpFlash 0.25s ease;
-}
-
 .hp-fill {
     height: 100%;
     transition: width 0.4s ease;
@@ -685,6 +681,35 @@ p {
     margin: 10px 0;
 }
 
-.player-sprite-idle {
-    animation: float 2s ease-in-out infinite;
+@keyframes playerPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes playerHitShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+.player-hit {
+    animation: floatIdle 3s ease-in-out infinite, playerPulse 0.3s ease, playerHitShake 0.3s ease;
+    filter: drop-shadow(0 0 12px rgba(120, 255, 180, 0.8))
+        drop-shadow(0 0 25px rgba(120, 255, 180, 0.6))
+        brightness(1.4)
+        saturate(1.3);
+}
+
+@keyframes playerDefeat {
+    0% { transform: rotate(0deg) scale(1); opacity: 1; }
+    40% { transform: rotate(-15deg) scale(0.95); }
+    100% { transform: rotate(-90deg) scale(0.7); opacity: 0.5; }
+}
+
+.player-defeated {
+    animation: playerDefeat 1s ease forwards;
+    filter: grayscale(80%);
 }
