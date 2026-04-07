@@ -35,6 +35,25 @@ def game():
         
 
     scene = session.get('scene', 'start')
+
+    if session.get('player_defeated'):
+        session['player_defeated'] = False
+        scene_text = (
+            "The troll's club crashes down.\n\n"
+            "Everything fades to black...\n\n"
+            "💀 You were defeated."
+        )
+        options = [('restart', 'Try again')]
+
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name='defeat',
+            options=options,
+            player_hit=False,
+            player_hp=0,
+            player_defeated=False
+        )
     
     if 'visited_scenes' not in session:
         session['visited_scenes'] = []
@@ -131,8 +150,11 @@ def game():
         options = [('continue', 'Push forward uneasily')]
 
     elif scene == 'werewolf':
-        session['werewolf_max_hp'] = 5
-        session['werewolf_hp'] = session.get('werewolf_hp', 5)
+        if 'entered_werewolf' not in session:
+            session['entered_werewolf'] = True
+            session['werewolf_max_hp'] = 5
+            session['werewolf_hp'] = 5
+            session['werewolf_stage'] = 0
 
         scene_text = (
             "A feral werewolf leaps from the shadows! "
@@ -144,32 +166,73 @@ def game():
         ]
 
     elif scene == 'attack_werewolf':
-        session['werewolf_hp'] -= 1
-        session['just_hit'] = True
+        stage = session.get('werewolf_stage', 0)
 
-        if session['werewolf_hp'] <= 0:
+        if stage == 0:
+            session['werewolf_hp'] -= 2
+            session['werewolf_stage'] = 1
+            session['just_hit'] = True
+
+            scene_text = (
+            f"You strike the werewolf!\n\n"
+            f"It has {session['werewolf_hp']} HP remaining."
+        )
+
+            options = [
+                ('attack_werewolf', 'Attack again'),
+                ('run', 'Attempt to escape')
+            ]
+
+            return render_template(
+                'game.html',
+                scene_text=scene_text,
+                scene_name='werewolf_defeated',
+                options=options,
+                player_hit=False,
+                player_hp=session.get('player_hp', 10),
+                player_defeated=False
+            )
+
+        elif stage == 1:
+            session['player_hp'] -= 1
+            session['werewolf_stage'] = 2
+
+            scene_text = "The werewolf lunges forward, clawing into you!"
+            options = [
+                ('attack_werewolf', 'Fight back'),
+                ('run', 'Attempt to escape')
+            ]
+
+            return render_template(
+                'game.html',
+                scene_text=scene_text,
+                scene_name='werewolf_defeated',
+                options=options,
+                player_hit=False,
+                player_hp=session.get('player_hp', 10),
+                player_defeated=False
+            )
+
+        elif stage == 2:
+            session['werewolf_hp'] = 0
+
             session['gold'] += 2
             session['xp'] += 3
+
             session.pop('entered_werewolf', None)
             session.pop('werewolf_hp', None)
-            session.pop('just_hit', None)
-            session['scene'] = 'werewolf_defeated'
+            session.pop('werewolf_stage', None)
 
+            session['scene'] = 'werewolf_defeated'
             return redirect(url_for('game'))
-        else:
-            scene_text = (
-                f"You strike the werewolf! "
-                f"It still has {session['werewolf_hp']} HP."
-            )
-            options = [('attack_werewolf', 'Attack again'),
-                        ('run', 'Attempt to escape')
-            ]
 
     elif scene == 'werewolf_defeated': 
         scene_text = ( 
-            "The werewolf collapses into the moss. " "Its glowing eyes fade into darkness." 
+            "The werewolf collapses into the moss. Its glowing eyes fade into darkness.\n\n" 
+            "You catch your breath, the forest slowly growing quiet again.\n\n"
+            "With renewed courage, you continue along the path..."
         ) 
-        options = [('continue', 'Continue down the path')]
+        options = [('wizard', 'Continue down the path')]
 
     elif scene == 'run':
         session['courage'] -= 1
@@ -207,6 +270,7 @@ def game():
         session['player_hit'] = True
 
         if session['player_hp'] <= 0:
+            session['player_defeated'] = True
             scene_text = (
                 "The troll's club crashes down.\n\n"
                 "Everything fades to black...\n\n"
@@ -218,7 +282,9 @@ def game():
                 scene_text=scene_text, 
                 scene_name=scene, 
                 options=options,
-                player_hit=True
+                player_hit=True,
+                player_hp=session['player_hp'],
+                player_defeated=True
             )
 
         if session['troll_hp'] <= 0:

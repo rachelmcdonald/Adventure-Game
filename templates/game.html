@@ -149,7 +149,8 @@
             <div class="player-sprite-container">
                 <img 
                     src="{{ url_for('static', filename='images/elven.png') }}" 
-                    class="player-sprite idle {% if player_hit %}player-hit{% endif %}"
+                    class="player-sprite idle {% if player_hit %}player-hit{% endif %}
+                    {% if player_defeated %}player-defeated{% endif %}"
                 >
             </div>
 
@@ -304,6 +305,12 @@
             window.addEventListener("beforeunload", function () {
                 overlay.classList.add("active");
             });
+
+            {% if player_defeated %}
+                setTimeout(() => {
+                    window.location.href = "/game";
+                }, 1000);
+            {% endif %}
 
         });
 
