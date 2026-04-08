@@ -152,8 +152,8 @@ def game():
     elif scene == 'werewolf':
         if 'entered_werewolf' not in session:
             session['entered_werewolf'] = True
-            session['werewolf_max_hp'] = 5
-            session['werewolf_hp'] = 5
+            session['werewolf_max_hp'] = 3
+            session['werewolf_hp'] = 3
             session['werewolf_stage'] = 0
 
         scene_text = (
@@ -165,13 +165,24 @@ def game():
             ('run', 'Try to escape')
         ]
 
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name=scene,
+            options=options,
+            player_hit=False,
+            player_hp=session.get('player_hp', 0),
+            werewolf_hp=session.get('werewolf_hp', 0),
+            werewolf_defeated=False,
+            player_defeated=False
+        )
+
     elif scene == 'attack_werewolf':
         stage = session.get('werewolf_stage', 0)
 
         if stage == 0:
             session['werewolf_hp'] -= 2
             session['werewolf_stage'] = 1
-            session['just_hit'] = True
 
             scene_text = (
             f"You strike the werewolf!\n\n"
@@ -186,11 +197,14 @@ def game():
             return render_template(
                 'game.html',
                 scene_text=scene_text,
-                scene_name='werewolf_defeated',
+                scene_name='attack_werewolf',
                 options=options,
                 player_hit=False,
-                player_hp=session.get('player_hp', 10),
-                player_defeated=False
+                player_hp=session['player_hp'],
+                werewolf_hp=session['werewolf_hp'],
+                werewolf_defeated=False,
+                player_defeated=False,
+                just_hit=True
             )
 
         elif stage == 1:
@@ -206,16 +220,17 @@ def game():
             return render_template(
                 'game.html',
                 scene_text=scene_text,
-                scene_name='werewolf_defeated',
+                scene_name='attack_werewolf',
                 options=options,
-                player_hit=False,
-                player_hp=session.get('player_hp', 10),
-                player_defeated=False
+                player_hit=True,
+                player_hp=session['player_hp'],
+                werewolf_hp=session['werewolf_hp'],
+                werewolf_defeated=False,
+                player_defeated=False,
+                just_hit=True
             )
 
         elif stage == 2:
-            session['werewolf_hp'] = 0
-
             session['gold'] += 2
             session['xp'] += 3
 
@@ -232,7 +247,19 @@ def game():
             "You catch your breath, the forest slowly growing quiet again.\n\n"
             "With renewed courage, you continue along the path..."
         ) 
-        options = [('wizard', 'Continue down the path')]
+        options = [('right', 'Follow the path deeper into the forest')]
+
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name=scene,
+            options=options,
+            player_hit=False,
+            player_hp=session['player_hp'],
+            werewolf_hp=0,
+            werewolf_defeated=True,
+            player_defeated=False
+        )
 
     elif scene == 'run':
         session['courage'] -= 1

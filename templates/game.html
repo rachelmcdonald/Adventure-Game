@@ -188,7 +188,7 @@
 
         {% endif %}
 
-        {% if 'werewolf' in scene_name %}
+        {% if scene_name in ['werewolf', 'attack_werewolf'] %}
             <div class="character-area">
 
                 <div class="werewolf-wrapper">
@@ -197,11 +197,20 @@
                         class="werewolf-sprite
                         {% if scene_name == 'werewolf' %}werewolf-pacing werewolf-warning{% endif %}
                         {% if scene_name == 'attack_werewolf' %}werewolf-angry werewolf-hit{% endif %}
-                        {% if scene_name == 'werewolf_defeated' %}werewolf-defeated{% endif %}"
                         alt="Werewolf">
 
                 </div>
 
+            </div>
+        {% endif %}
+
+        {% if scene_name == 'werewolf_defeated' %}
+            <div class="character-area">
+                <div class="werewolf-wrapper">
+                    <img src="{{ url_for('static', filename='images/werewolf.png') }}"
+                        class="werewolf-sprite werewolf-defeated"
+                        alt="Werewolf">
+                </div>
             </div>
         {% endif %}
 
