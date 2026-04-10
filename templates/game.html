@@ -98,12 +98,13 @@
         {% if 'wizard' in scene_name or scene_name == 'right' %}
             <div class="character-area">
                 <div class="wizard-wrapper
-                    {% if scene_name in ['right', 'wizard_talk'] %} wizard-wrapper--blessed {% endif %}
+                    {% if is_blessing %}  wizard-wrapping--healing   
+                    {% elif scene_name in ['right', 'wizard_talk'] %} wizard-wrapper--blessed {% endif %}
                     {% if scene_name == 'wizard_pass' %} wizard-wrapper--angry {% endif %}
                 ">
                     <img src="{{ url_for('static', filename='images/wizard.png') }}" class="wizard-sprite">
 
-                    <div class="wizard-sparkles"></div>
+                    <div class="wizard-sparkles {% if is_blessing %}wizard-sparkles--healing{% endif %}"></div>
                 </div>
                     {% if scene_name == 'wizard_talk' %}
 

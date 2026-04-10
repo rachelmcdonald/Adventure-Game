@@ -94,10 +94,38 @@ def game():
             "The river whispers ancient songs. "
             "A moss-robed wizard stands before you, staff glowing softly.."
         )
+
+        is_blessing = False
+
+        if session.get('werewolf_defeated'):
+            scene_text = (
+                "The forest settles after the battle. "
+                "The river whispers ancient songs. "
+                "A moss-robed wizard stands before you, staff glowing softly. "
+                "He raises an eyebrow as he notices your weary stance from the recent werewolf fight."
+            )
+
+        if session.get('player_hp', 1) < session.get('player_max_hp', 1):
+            scene_text += " He frowns slightly at your wounds and murmurs a blessing of protection"
+
+            is_blessing = True
+
         options = [
-            ('wizard_talk', 'Speak respectfully to the wizard'),
-            ('wizard_pass', 'Attempt to sneak past')
+            ('wizard_talk', 'Greet the wizard'),
+            ('wizard_pass', 'Walk past silently')
         ]
+
+        return render_template(
+            'game.html',
+            scene_name='right',
+            scene_text=scene_text,
+            options=options,
+            player_hp=session.get('player_hp', 1),
+            player_defeated=False,
+            player_hit=False,
+            just_hit=False,
+            is_blessing=is_blessing
+        )
 
     elif scene == 'fairy_help':
         if first_visit:
