@@ -36,6 +36,10 @@ def game():
 
     scene = session.get('scene', 'start')
 
+    if 'player_hp' not in session:
+        session['player_hp'] = 10
+        session['player_max_hp'] = 10
+
     if session.get('player_defeated'):
         session['player_defeated'] = False
         scene_text = (
@@ -108,8 +112,6 @@ def game():
         if session.get('player_hp', 1) < session.get('player_max_hp', 1):
             scene_text += " He frowns slightly at your wounds and murmurs a blessing of protection"
 
-            is_blessing = True
-
         options = [
             ('wizard_talk', 'Greet the wizard'),
             ('wizard_pass', 'Walk past silently')
@@ -153,6 +155,8 @@ def game():
         options = [('werewolf', 'Continue quietly')]
 
     elif scene == 'wizard_talk':
+        is_blessing = False
+
         if first_visit:
             session['wizard_interacted'] = True
             session['came_from'] = 'wizard_talk'
@@ -160,9 +164,10 @@ def game():
             session['gold'] +=1
         
         scene_text = (
-            "The wizard nods slowly. "
-            "He taps his staff, filling you with quiet strength."
+            "The wizard studies you carefully. "
         )
+
+        if session.get('player_hp', 1) < session.get('player_max_hp', 1):
         options = [('continue', 'Continue along the glowing path')]
 
     elif scene == 'wizard_pass':
@@ -427,7 +432,15 @@ def game():
         scene_text = "The forest grows quiet... too quiet."
         options = [('restart', 'Begin again')]
 
-    return render_template('game.html', scene_text=scene_text, scene_name=scene, options=options, just_hit=session.pop('just_hit', False), player_hit=session.pop('player_hit', False))
+    return render_template(
+        'game.html', 
+        scene_text=scene_text, 
+        scene_name=scene, 
+        options=options, 
+        just_hit=session.pop('just_hit', False), 
+        player_hit=session.pop('player_hit', False), 
+        is_blessing=False 
+    )
 
 
 if __name__ == '__main__':

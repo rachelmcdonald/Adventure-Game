@@ -98,7 +98,7 @@
         {% if 'wizard' in scene_name or scene_name == 'right' %}
             <div class="character-area">
                 <div class="wizard-wrapper
-                    {% if is_blessing %}  wizard-wrapping--healing   
+                    {% if is_blessing %}  wizard-wrapper--healing   
                     {% elif scene_name in ['right', 'wizard_talk'] %} wizard-wrapper--blessed {% endif %}
                     {% if scene_name == 'wizard_pass' %} wizard-wrapper--angry {% endif %}
                 ">
@@ -300,14 +300,24 @@
             }
 
             const wizardSparkles = document.querySelector(".wizard-sparkles");
+            const healingSparkles = document.querySelector(".wizard-sparkles--healing");
+            
             if (wizardSparkles) {
+                const interval = healingSparkles  ? 200 : 500;
+
                 setInterval(() => {
                     const sparkle = document.createElement("span");
                     sparkle.style.left = Math.random() * 100 + "%";
                     sparkle.style.top = Math.random() * 100 + "%";
+
+                    if (healingSparkles) {
+                        sparkle.style.background = "white";
+                        sparkle.style.boxShadow = "0 0 10px white";
+                    }
+
                     wizardSparkles.appendChild(sparkle);
                     setTimeout(() => sparkle.remove(), 4000);
-                }, 500);
+                }, interval);
             }
 
             const overlay = document.getElementById("fade-overlay");
