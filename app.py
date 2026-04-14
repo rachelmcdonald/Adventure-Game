@@ -168,6 +168,17 @@ def game():
         )
 
         if session.get('player_hp', 1) < session.get('player_max_hp', 1):
+            scene_text += (
+                "His gaze softens. He raises his staff, and a gentle white light begins to surround you. "
+                "Warmth flows through your body as he whispers an ancient blessing."
+            )
+
+            is_blessing = True
+
+            session['player_hp'] = session.get('player_max_hp', 10)
+
+        else:
+            scene_
         options = [('continue', 'Continue along the glowing path')]
 
     elif scene == 'wizard_pass':
