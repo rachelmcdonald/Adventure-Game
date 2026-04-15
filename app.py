@@ -140,7 +140,7 @@ def game():
             "The fairy smiles warmly and sprinkles glowing spores over you. "
             "You feel a gentle protective magic surround you."
         )
-        options = [('continue', 'Thank her and continue')]
+        options = [('blessing_ending', 'Thank her and continue')]
 
     elif scene == 'fairy_ignore':
         if first_visit:
@@ -178,8 +178,20 @@ def game():
             session['player_hp'] = session.get('player_max_hp', 10)
 
         else:
-            scene_
-        options = [('continue', 'Continue along the glowing path')]
+            scene_text += (
+                "He nods slowly, sensing your strength, and taps his staff lightly in approval."
+            )
+        options = [
+            ('blessing_ending', 'Thank them and continue')
+        ]
+
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name=scene,
+            options=options,
+            is_blessing=is_blessing
+        )
 
     elif scene == 'wizard_pass':
         if first_visit:
@@ -316,6 +328,28 @@ def game():
 
         options = [('continue', 'Keep moving')]
 
+    elif scene == 'forest_safe_ending':
+        scene_text = (
+            "The wizard’s blessing lingers as you continue forward. "
+            "The forest no longer feels threatening — the shadows soften, "
+            "and the whispering river guides your steps.\n\n"
+            "You emerge from the mosslit path safely, carrying newfound strength and quiet courage. \n\n"
+            f"⭐ XP Earned: {session['xp']}\n\n"
+            f"🪙 Gold Collected: {session['gold']}\n\n"
+            f"🌱 Courage Remaining: {session['courage']}\n\n"
+        )
+
+        options = [
+            ('restart', 'Play Again')
+        ]
+
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name=scene,
+            options=options
+        ) 
+
     elif scene == 'troll':
         session['player_hp'] = session.get('player_hp', 10)
         session['player_max_hp'] = session.get('player_max_hp', 10)
@@ -345,7 +379,10 @@ def game():
             scene_text = (
                 "The troll's club crashes down.\n\n"
                 "Everything fades to black...\n\n"
-                "💀 You were defeated."
+                "💀 You were defeated.\n\n"
+                f"⭐ XP Earned: {session['xp']}\n\n"
+                f"🪙 Gold Collected: {session['gold']}\n\n"
+                f"🌱 Courage Remaining: {session['courage']}\n\n"
             )
             options = [('restart', 'Try again')]
             return render_template(
@@ -402,6 +439,25 @@ def game():
 
         options = [('continue', 'Keep moving')]
 
+    elif scene == 'blessing_ending':
+        scene_text = (
+            "A gentle warmth surrounds you as the blessing settles deep within your spirit.\n\n"
+            "With renewed confidence, you walk the mosslit path — no longer as a wanderer, "
+            "but as one chosen and protected.\n\n"
+            "The forest opens before you, and you pass through safely."
+            f"⭐ XP Earned: {session['xp']}\n\n"
+            f"🪙 Gold Collected: {session['gold']}\n\n"
+            f"🌱 Courage Remaining: {session['courage']}\n\n"
+        )
+        options = [('restart', 'Play again')]
+
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name=scene,
+            options=options
+        )
+
     elif scene == 'continue':
 
         if (
@@ -423,15 +479,22 @@ def game():
 
         else:
             scene_text = (
-                "You emerge into a mosslit clearing. "
-                "Fireflies dance as dawn breaks.\n\n"
-                "🌿 Adventure Complete\n\n"
-                f"⭐ XP Earned: {session['xp']}\n"
-                f"🪙 Gold Collected: {session['gold']}\n"
+                "A gentle warmth surrounds you as the blessing settles deep within your spirit.\n\n"
+                "With renewed confidence, you walk the mosslit path — no longer as a wanderer, "
+                "but as one chosen and protected.\n\n"
+                "The forest opens before you, and you pass through safely."
+                f"⭐ XP Earned: {session['xp']}\n\n"
+                f"🪙 Gold Collected: {session['gold']}\n\n"
                 f"🌱 Courage Remaining: {session['courage']}\n\n"
-                "Ending: Mosslit Wanderer"
             )
             options = [('restart', 'Play again')]
+
+            return render_template(
+                'game.html',
+                scene_text=scene_text,
+                scene_name=scene,
+                options=options
+            )
 
     elif scene == 'restart':
         session.clear()

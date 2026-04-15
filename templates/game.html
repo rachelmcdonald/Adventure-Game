@@ -234,6 +234,13 @@
                 class="troll-sprite troll-defeated">
         {% endif %}
 
+        {% if scene_name == 'blessing_ending' %}
+            <div class="player-wrapper player--celebration">
+                <img src="{{ url_for('static', filename='images/player.png') }}" class="player-sprite">
+                <div class="sparkles player-sparkles"></div>
+            </div>
+        {% endif %}
+
         {% set in_dialogue = scene_name in ['fairy_help', 'fairy_ignore', 'wizard_talk', 'wizard_pass'] %}
 
         {% if not in_dialogue %}
