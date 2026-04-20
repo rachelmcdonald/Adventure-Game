@@ -432,12 +432,18 @@ def game():
         session.pop('came_from', None)
 
         scene_text = (
-            "You scramble away as the troll bellows behind you. "
-            "Each step shakes the ground beneath your feet...\n\n"
-            "You escape... but your nerves are rattled."
+            "You scramble away, heart pounding. "
+            "Though you escape, the forest has shaken your spirit.\n\n"
+            "Some paths are not meant to be conquered."
         )
 
-        options = [('continue', 'Keep moving')]
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name=scene,
+            options=[('restart', 'Try Again')],
+            show_stats=True
+        )
 
     elif scene == 'blessing_ending':
         scene_text = (
@@ -445,9 +451,6 @@ def game():
             "With renewed confidence, you walk the mosslit path — no longer as a wanderer, "
             "but as one chosen and protected.\n\n"
             "The forest opens before you, and you pass through safely."
-            f"⭐ XP Earned: {session['xp']}\n\n"
-            f"🪙 Gold Collected: {session['gold']}\n\n"
-            f"🌱 Courage Remaining: {session['courage']}\n\n"
         )
         options = [('restart', 'Play again')]
 
