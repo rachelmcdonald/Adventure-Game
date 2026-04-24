@@ -8,11 +8,12 @@
 
     <div id="title-overlay" class="overlay">
         <div class="overlay-content">
+            <div class="sparkles"></div>
             <h1 class="game-title">The Mosslit Path</h1>
             <p class="game-tagline">
                 A mystical, choice-driven journey where every path shapes your fate.
             </p>
-            <button id="start-game-btn">Start Game</button>
+            <button id="start-game-btn" class='action-btn'>Start Game</button>
         </div>
     </div>
 
@@ -304,8 +305,15 @@
                 type();
             });
 
-            const sparkleContainer = document.querySelector(".sparkles");
-            if (sparkleContainer) {
+            const titleOverlay = document.getElementById('title-overlay');
+            const startBtn = document.getElementById('start-game-btn');
+
+            startBtn.addEventListener('click', ()=> {
+                titleOverlay.classList.add('hidden');
+            });
+
+            const sparkleContainers = document.querySelectorAll(".sparkles");
+            sparklesContainers.forEach(container => {
                 setInterval(() => {
                     const sparkle = document.createElement("span");
                     sparkle.style.left = Math.random() * 100 + "%";
@@ -314,7 +322,7 @@
                     sparkleContainer.appendChild(sparkle);
                     setTimeout(() => sparkle.remove(), 4000);
                 }, 300);
-            }
+            });
 
             const wizardSparkles = document.querySelector(".wizard-sparkles");
             const healingSparkles = document.querySelector(".wizard-sparkles--healing");
