@@ -48,12 +48,18 @@ body {
     border: 2px solid #7cff9e;
     box-shadow: 0 0 20px #7cff9e,
                 0 0 40px rgba(124, 255, 158, 0.4);
+    position: relative;
+    z-index: 10000;
 }
 
 .overlay-hidden {
     opacity: 0;
     transition: opacity 0.6s ease;
     pointer-events: none;
+}
+
+.hidden {
+    display: none;
 }
 
 .game-title {

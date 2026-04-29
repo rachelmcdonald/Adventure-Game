@@ -308,18 +308,20 @@
             const titleOverlay = document.getElementById('title-overlay');
             const startBtn = document.getElementById('start-game-btn');
 
-            startBtn.addEventListener('click', ()=> {
-                titleOverlay.classList.add('hidden');
-            });
+            if (startBtn && titleOverlay) {
+                startBtn.addEventListener('click', ()=> {
+                    titleOverlay.classList.add('hidden');
+                });
+            }
 
             const sparkleContainers = document.querySelectorAll(".sparkles");
-            sparklesContainers.forEach(container => {
+            sparkleContainers.forEach(container => {
                 setInterval(() => {
                     const sparkle = document.createElement("span");
                     sparkle.style.left = Math.random() * 100 + "%";
                     sparkle.style.top = Math.random() * 100 + "%";
                     sparkle.style.animationDuration = 2 + Math.random() * 2 + "s";
-                    sparkleContainer.appendChild(sparkle);
+                    container.appendChild(sparkle);
                     setTimeout(() => sparkle.remove(), 4000);
                 }, 300);
             });
