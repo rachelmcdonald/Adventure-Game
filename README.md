@@ -86,7 +86,7 @@ framework for what is fundamentally a story-driven app.
 ```bash
 # Clone the repo
 git clone https://github.com/rachelmcdonald/Adventure-Game.git
-cd the-mosslit-path
+cd Adventure-Game
 
 # Create and activate a virtual environment
 python -m venv venv
