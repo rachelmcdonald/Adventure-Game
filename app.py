@@ -7,6 +7,11 @@ app.secret_key = "mosslit-secret-key"
 def home():
     return redirect(url_for('game'))
 
+@app.route('/start')
+def start():
+    session['intro_seen'] = True
+    return redirect(url_for('game'))
+
 @app.route('/reset')
 def reset():
     session.clear()
@@ -40,6 +45,9 @@ def game():
         session['player_hp'] = 10
         session['player_max_hp'] = 10
 
+    if 'intro_seen' not in session:
+        session['intro_seen'] = False
+
     if session.get('player_defeated'):
         session['player_defeated'] = False
         scene_text = (
@@ -56,7 +64,8 @@ def game():
             options=options,
             player_hit=False,
             player_hp=0,
-            player_defeated=False
+            player_defeated=False,
+            intro_seen=session.get('intro_seen', False)
         )
     
     if 'visited_scenes' not in session:
@@ -126,7 +135,8 @@ def game():
             player_defeated=False,
             player_hit=False,
             just_hit=False,
-            is_blessing=is_blessing
+            is_blessing=is_blessing,
+            intro_seen=session.get('intro_seen', False)
         )
 
     elif scene == 'fairy_help':
@@ -190,7 +200,8 @@ def game():
             scene_text=scene_text,
             scene_name=scene,
             options=options,
-            is_blessing=is_blessing
+            is_blessing=is_blessing,
+            intro_seen=session.get('intro_seen', False)
         )
 
     elif scene == 'wizard_pass':
@@ -230,7 +241,8 @@ def game():
             player_hp=session.get('player_hp', 0),
             werewolf_hp=session.get('werewolf_hp', 0),
             werewolf_defeated=False,
-            player_defeated=False
+            player_defeated=False,
+            intro_seen=session.get('intro_seen', False)
         )
 
     elif scene == 'attack_werewolf':
@@ -260,7 +272,8 @@ def game():
                 werewolf_hp=session['werewolf_hp'],
                 werewolf_defeated=False,
                 player_defeated=False,
-                just_hit=True
+                just_hit=True,
+                intro_seen=session.get('intro_seen', False)
             )
 
         elif stage == 1:
@@ -283,7 +296,8 @@ def game():
                 werewolf_hp=session['werewolf_hp'],
                 werewolf_defeated=False,
                 player_defeated=False,
-                just_hit=True
+                just_hit=True,
+                intro_seen=session.get('intro_seen', False)
             )
 
         elif stage == 2:
@@ -314,7 +328,8 @@ def game():
             player_hp=session['player_hp'],
             werewolf_hp=0,
             werewolf_defeated=True,
-            player_defeated=False
+            player_defeated=False,
+            intro_seen=session.get('intro_seen', False)
         )
 
     elif scene == 'run':
@@ -347,7 +362,8 @@ def game():
             'game.html',
             scene_text=scene_text,
             scene_name=scene,
-            options=options
+            options=options,
+            intro_seen=session.get('intro_seen', False)
         ) 
 
     elif scene == 'troll':
@@ -392,7 +408,8 @@ def game():
                 options=options,
                 player_hit=True,
                 player_hp=session['player_hp'],
-                player_defeated=True
+                player_defeated=True,
+                intro_seen=session.get('intro_seen', False)
             )
 
         if session['troll_hp'] <= 0:
@@ -442,7 +459,8 @@ def game():
             scene_text=scene_text,
             scene_name=scene,
             options=[('restart', 'Try Again')],
-            show_stats=True
+            show_stats=True,
+            intro_seen=session.get('intro_seen', False)
         )
 
     elif scene == 'blessing_ending':
@@ -458,7 +476,8 @@ def game():
             'game.html',
             scene_text=scene_text,
             scene_name=scene,
-            options=options
+            options=options,
+            intro_seen=session.get('intro_seen', False)
         )
 
     elif scene == 'continue':
@@ -496,7 +515,8 @@ def game():
                 'game.html',
                 scene_text=scene_text,
                 scene_name=scene,
-                options=options
+                options=options,
+                intro_seen=session.get('intro_seen', False)
             )
 
     elif scene == 'restart':
@@ -516,7 +536,8 @@ def game():
         options=options, 
         just_hit=session.pop('just_hit', False), 
         player_hit=session.pop('player_hit', False), 
-        is_blessing=False 
+        is_blessing=False ,
+        intro_seen=session.get('intro_seen', False)
     )
 
 

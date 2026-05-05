@@ -6,6 +6,7 @@
 </head>
 <body>
 
+    {% if not intro_seen %}
     <div id="title-overlay" class="overlay">
         <div class="overlay-content">
             <div class="sparkles"></div>
@@ -16,6 +17,7 @@
             <button id="start-game-btn" class='action-btn'>Start Game</button>
         </div>
     </div>
+    {% endif %}
 
     {% set scene_name = scene_name or '' %}
 
@@ -309,8 +311,8 @@
             const startBtn = document.getElementById('start-game-btn');
 
             if (startBtn && titleOverlay) {
-                startBtn.addEventListener('click', ()=> {
-                    titleOverlay.classList.add('hidden');
+                startBtn.addEventListener('click', () => {
+                    window.location.href = "/start";
                 });
             }
 
