@@ -834,3 +834,47 @@ p {
     background: #ffffff;
     box-shadow: 0 0 10px #7cff9e;
 }
+
+body.ending {
+        background: radial-gradient(circle at top, #111 0%, #000 70%);
+}
+
+body.ending .game-container {
+    border: 2px solid rgba(180, 180, 180, 0.25);
+    box-shadow: 0 0 20px rgba(200, 200, 200, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.03);
+}
+
+body.ending p, 
+body.ending .stats {
+    color: #ccc;
+    text-shadow: none;
+}
+
+body.ending .action-btn {
+    background: linear-gradient(135deg, #666, #444);
+    color: #eee;
+    box-shadow: 0 0 10px rgba(200, 200, 200, 0.2);
+}
+
+body.ending .action-btn:hover {
+    background: #888;
+    color: black;
+}
+
+body.ending .ambient-glow {
+    display: none;
+}
+
+body.ending .fireflies span {
+    background: rgba(200, 200, 200, 0.3);
+    box-shadow: none;
+}
+
+body.ending .sparkles span {
+    background: rgba(220, 220, 220, 0.4);
+    box-shadow: 0 0 6px rgba(200, 200, 200, 0.2);
+}
+
+body.ending img {
+    filter: grayscale(60%) brightness(0.8);
+}

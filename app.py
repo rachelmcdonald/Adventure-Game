@@ -337,11 +337,31 @@ def game():
         session.pop('came_from', None)
 
         scene_text = (
-            "You flee through the dark forest, the werewolf's howl fading behind you."
-            "\n\nYou escape… but the forest feels heavier now."
+            "You turn and run.\n\n"
+            "Branches claw at your cloak as the forest closes in behind you, "
+            "the werewolf’s howl echoing through the trees.\n\n"
+
+            "You do not stop.\n\n"
+
+            "At last, the sound fades.\n\n"
+
+            "But so too does something within you.\n\n"
+
+            "The moss beneath your feet no longer glows.\n"
+            "The whispers of the forest fall silent.\n\n"
+
+            "You are safe… but the path has turned its back on you.\n\n"
         )
 
-        options = [('continue', 'Keep moving')]
+        options = [('restart', 'Begin Again')]
+
+        return render_template(
+            'game.html',
+            scene_text=scene_text,
+            scene_name='werewolf_escape_ending',
+            options=options,
+            intro_seen=session.get('intro_seen', True)
+        )
 
     elif scene == 'forest_safe_ending':
         scene_text = (
