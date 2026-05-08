@@ -12,7 +12,7 @@ encounters, combat outcomes, and endings all depend on the path you take.
 
 | Intro | Branching Path | Combat | Ending |
 |-------|---------------|--------|--------|
-| ![intro](static/screenshots/intro.png) | ![path](static/screenshots/path.png) | ![combat](static/screenshots/combat.png) | ![end](static/screenshots/end.png) |
+| ![intro](static/screenshots/intro.png) | ![path](static/screenshots/path.png) | ![combat](static/screenshots/combat.png) | ![end](static/screenshots/ending.png) |
 
 ---
 
