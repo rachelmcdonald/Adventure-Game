@@ -210,7 +210,7 @@
                     <img src="{{ url_for('static', filename='images/werewolf.png') }}"
                         class="werewolf-sprite
                         {% if scene_name == 'werewolf' %}werewolf-pacing werewolf-warning{% endif %}
-                        {% if scene_name == 'attack_werewolf' %}werewolf-angry werewolf-hit{% endif %}
+                        {% if scene_name == 'attack_werewolf' %}werewolf-angry werewolf-hit{% endif %}"
                         alt="Werewolf">
 
                 </div>
@@ -277,12 +277,7 @@
             const typeSound = document.getElementById("typeSound");
 
             if (typeSound) {
-                typeSound.volume = 0;
-                typeSound.play().then(() => {
-                    typeSound.pause();
-                    typeSound.currentTime = 0;
-                    typeSound.volume = 0.25;
-                }).catch(() => {});
+                typeSound.volume = 0.15;
             }
 
             elements.forEach(el => {
@@ -294,6 +289,15 @@
                 function type() {
                     if (i < text.length && typing) {
                         el.textContent += text.charAt(i);
+                        
+                        if (
+                            text.charAt(i).trim() !== "" &&
+                            i % 2 === 0
+                        ) {
+                            typeSound.currentTime = 0;
+                            typeSound.play().catch(() => {});
+                        }
+
                         i++;
                         setTimeout(type, 40);
                     }
