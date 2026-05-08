@@ -1,5 +1,7 @@
 # 🌿 The Mosslit Path
 
+🎮 **[Play the live demo](https://adventure-game-production.up.railway.app)**
+
 A Flask-based narrative RPG web app where you play as an Elven Ranger 
 navigating a branching forest adventure. Your choices shape the story — 
 encounters, combat outcomes, and endings all depend on the path you take.
