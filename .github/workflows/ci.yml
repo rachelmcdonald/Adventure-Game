@@ -1,0 +1,38 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest-playwright
+          playwright install --with-deps chromium
+
+      - name: Start Flask app
+        run: flask run &
+        env:
+          FLASK_APP: app.py
+          SECRET_KEY: test-secret-key
+
+      - name: Wait for server to be ready
+        run: |
+          for i in {1..10}; do
+            curl -s http://127.0.0.1:5000 && break
+            echo "Waiting for Flask..."
+            sleep 2
+          done
+
+      - name: Run Playwright tests
+        run: pytest tests/
+        env:
+          FLASK_APP: app.py
